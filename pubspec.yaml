@@ -1,0 +1,53 @@
+name: simple_game
+description: "오프라인 스낵 미니게임 모음"
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.11.1
+
+dependencies:
+  audioplayers: ^6.7.1
+  flutter:
+    sdk: flutter
+  share_plus: ^13.3.0
+  shared_preferences: ^2.5.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.7
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/sfx/
+  fonts:
+    - family: Pretendard
+      fonts:
+        - asset: assets/fonts/Pretendard-Regular.otf
+          weight: 400
+        - asset: assets/fonts/Pretendard-Bold.otf
+          weight: 700
+    - family: BlackHanSans
+      fonts:
+        - asset: assets/fonts/BlackHanSans-Regular.ttf
+    - family: Jua
+      fonts:
+        - asset: assets/fonts/Jua-Regular.ttf
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: assets/icon/appicon.png
+  adaptive_icon_background: "#FF9600"
+  adaptive_icon_foreground: assets/icon/appicon_fg.png
+
+flutter_native_splash:
+  color: "#FFF4DE"
+  image: assets/icon/splash_fg.png
+  android_12:
+    color: "#FFF4DE"
+    image: assets/icon/splash_fg.png

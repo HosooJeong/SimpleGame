@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!--
+    루트가 아닌 경로에 배포할 경우 flutter build web --base-href 옵션으로 교체된다.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <!-- 처음부터 기기 해상도로 렌더링 — 없으면 스플래시가 축소로 보이다가 엔진 부팅 시 튄다 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="description" content="반응속도·기억력·감각까지, 네 한계를 시험하는 초간단 두뇌 미니게임 모음. 오프라인에서도 즐길 수 있어요.">
+  <meta name="theme-color" content="#FF9600">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="스낵게임">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>스낵게임 – 초간단 두뇌 미니게임</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    /* 앱 로드 전 스플래시 — 앱과 같은 크림 배경 + 로고/로딩바 */
+    html, body { background: #FFF4DE; margin: 0; padding: 0; height: 100%; }
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 18px; background: #FFF4DE;
+      transition: opacity .3s ease;
+      font-family: -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    }
+    #splash.gone { opacity: 0; pointer-events: none; }
+    #splash .logo {
+      font-size: 34px; font-weight: 900; letter-spacing: 2px; color: #FF9600;
+    }
+    #splash .bar {
+      width: 180px; height: 10px; border-radius: 5px;
+      background: #FFE7BD; overflow: hidden;
+    }
+    #splash .bar::after {
+      content: ''; display: block; width: 40%; height: 100%;
+      border-radius: 5px; background: #FF9600;
+      animation: splash-slide 1.1s ease-in-out infinite;
+    }
+    @keyframes splash-slide {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(350%); }
+    }
+    #splash .hint { font-size: 13px; color: #B2986E; }
+  </style>
+</head>
+<body>
+  <div id="splash">
+    <div class="logo">스낵게임</div>
+    <div class="bar"></div>
+    <div class="hint">게임 준비 중...</div>
+  </div>
+  <script>
+    // 플러터 첫 프레임이 그려지면 스플래시를 페이드아웃 후 제거.
+    window.addEventListener('flutter-first-frame', function () {
+      var splash = document.getElementById('splash');
+      if (!splash) return;
+      splash.classList.add('gone');
+      setTimeout(function () { splash.remove(); }, 400);
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+    "name": "스낵게임 – 초간단 두뇌 미니게임",
+    "short_name": "스낵게임",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#FFF4DE",
+    "theme_color": "#FF9600",
+    "description": "반응속도·기억력·감각까지, 네 한계를 시험하는 초간단 두뇌 미니게임 모음",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "lang": "ko",
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
