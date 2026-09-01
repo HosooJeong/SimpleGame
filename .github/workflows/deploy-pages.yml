@@ -30,6 +30,16 @@ jobs:
 
       - run: flutter build web --release --base-href /SimpleGame/
 
+      # 서비스워커 캐시 키를 커밋 해시로 고정 — 배포마다 캐시가 갈린다.
+      - name: Stamp service worker version
+        run: |
+          sed -i "s/__BUILD_VERSION__/${GITHUB_SHA}/g" build/web/sw.js
+          if grep -q "__BUILD_VERSION__" build/web/sw.js; then
+            echo "치환 실패: sw.js에 플레이스홀더가 남아있음"
+            exit 1
+          fi
+          grep -o "snackgame-[0-9a-f]\{40\}" build/web/sw.js
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build/web

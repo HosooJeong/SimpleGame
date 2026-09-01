@@ -69,6 +69,14 @@
       setTimeout(function () { splash.remove(); }, 400);
     });
   </script>
+  <script>
+    // 캐싱용 서비스워커 등록 — 재방문 시 네트워크 없이 즉시 뜨고, 오프라인에서도 동작한다.
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+      });
+    }
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
