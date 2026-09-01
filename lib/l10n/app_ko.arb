@@ -17,6 +17,10 @@
 
   "stats": "기록",
   "settings": "설정",
+  "language": "언어",
+  "languageSystem": "기기 설정 따름",
+  "languageKorean": "한국어",
+  "languageEnglish": "English",
   "sound": "효과음",
   "haptics": "진동",
   "resetRecords": "기록 전체 초기화",

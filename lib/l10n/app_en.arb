@@ -17,6 +17,10 @@
 
   "stats": "Records",
   "settings": "Settings",
+  "language": "Language",
+  "languageSystem": "Follow device",
+  "languageKorean": "한국어",
+  "languageEnglish": "English",
   "sound": "Sound",
   "haptics": "Vibration",
   "resetRecords": "Reset all records",

@@ -37,6 +37,36 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+  /// 언어 선택 — 기기 설정 따름 / 한국어 / English.
+  Future<void> _pickLanguage(BuildContext context) async {
+    final settings = AppScope.of(context).settings;
+    final l = context.l;
+    final options = <String?, String>{
+      null: l.languageSystem,
+      'ko': l.languageKorean,
+      'en': l.languageEnglish,
+    };
+
+    final picked = await showDialog<_LanguageChoice>(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: Text(l.language),
+        children: [
+          for (final entry in options.entries)
+            ListTile(
+              title: Text(entry.value),
+              trailing: settings.localeCode == entry.key
+                  ? const Icon(Icons.check, color: AppColors.accent)
+                  : null,
+              onTap: () =>
+                  Navigator.pop(context, _LanguageChoice(entry.key)),
+            ),
+        ],
+      ),
+    );
+    if (picked != null) settings.setLocaleCode(picked.code);
+  }
+
   @override
   Widget build(BuildContext context) {
     final scope = AppScope.of(context);
@@ -49,6 +79,17 @@ class SettingsScreen extends StatelessWidget {
         listenable: settings,
         builder: (context, _) => ListView(
           children: [
+            ListTile(
+              leading: const Icon(Icons.language),
+              title: Text(l.language),
+              subtitle: Text(switch (settings.localeCode) {
+                'ko' => l.languageKorean,
+                'en' => l.languageEnglish,
+                _ => l.languageSystem,
+              }),
+              onTap: () => _pickLanguage(context),
+            ),
+            const Divider(),
             SwitchListTile(
               title: Text(l.sound),
               secondary: const Icon(Icons.volume_up),
@@ -86,4 +127,12 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+/// 다이얼로그를 그냥 닫은 경우(null)와 '기기 설정 따름'(code == null)을
+/// 구분하기 위한 래퍼.
+class _LanguageChoice {
+  const _LanguageChoice(this.code);
+
+  final String? code;
 }

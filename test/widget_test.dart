@@ -12,14 +12,20 @@ import 'package:simple_game/games/game_registry.dart';
 import 'package:simple_game/l10n/app_localizations.dart';
 
 void main() {
-  /// 시스템 언어를 지정해 앱을 띄운다.
-  Future<void> pumpApp(WidgetTester tester, List<Locale> systemLocales) async {
+  late SettingsController settings;
+
+  /// 시스템 언어를 지정해 앱을 띄운다. [saved]로 저장된 설정을 흉내 낼 수 있다.
+  Future<void> pumpApp(
+    WidgetTester tester,
+    List<Locale> systemLocales, {
+    Map<String, Object> saved = const {},
+  }) async {
     tester.platformDispatcher.localesTestValue = systemLocales;
     addTearDown(tester.platformDispatcher.clearLocalesTestValue);
 
-    SharedPreferences.setMockInitialValues({});
+    SharedPreferences.setMockInitialValues(saved);
     final prefs = await SharedPreferences.getInstance();
-    final settings = SettingsController(prefs);
+    settings = SettingsController(prefs);
 
     await tester.pumpWidget(
       AppScope(
@@ -59,6 +65,29 @@ void main() {
   testWidgets('한국어가 뒤에 있어도 한국어를 고른다', (tester) async {
     await pumpApp(tester, const [Locale('de'), Locale('ko')]);
 
+    expect(find.text('네 한계를 증명해봐'), findsOneWidget);
+  });
+
+  testWidgets('설정에 저장된 언어가 기기 언어를 덮어쓴다', (tester) async {
+    // 기기는 한국어지만 설정은 영어 → 영어로 나와야 한다.
+    await pumpApp(tester, const [Locale('ko')],
+        saved: const {'flutter.set.locale': 'en'});
+
+    expect(find.text('Prove your limits'), findsOneWidget);
+    expect(find.text('네 한계를 증명해봐'), findsNothing);
+  });
+
+  testWidgets('언어를 바꾸면 다시 그려지고, 되돌리면 기기 언어로 돌아간다',
+      (tester) async {
+    await pumpApp(tester, const [Locale('ko')]);
+    expect(find.text('네 한계를 증명해봐'), findsOneWidget);
+
+    settings.setLocaleCode('en');
+    await tester.pumpAndSettle();
+    expect(find.text('Prove your limits'), findsOneWidget);
+
+    settings.setLocaleCode(null);
+    await tester.pumpAndSettle();
     expect(find.text('네 한계를 증명해봐'), findsOneWidget);
   });
 }
