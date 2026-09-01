@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -70,10 +72,11 @@ class _NumberGridPlayState extends State<NumberGridPlay> {
         children: [
           const SizedBox(height: 8),
           Text(
-            '${(_stopwatch.elapsedMilliseconds / 1000).toStringAsFixed(1)}초',
+            context.l.countSeconds(
+                (_stopwatch.elapsedMilliseconds / 1000).toStringAsFixed(1)),
             style: textTheme.displaySmall,
           ),
-          Text('다음: $_next', style: textTheme.bodySmall),
+          Text(context.l.numberGridNext(_next), style: textTheme.bodySmall),
           const Spacer(),
           AspectRatio(
             aspectRatio: 1,

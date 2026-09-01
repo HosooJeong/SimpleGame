@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../app/l10n_context.dart';
 import '../app/theme.dart';
 
 /// 홈 카드의 컬러 블록 위에 올라가는 미니 게임 장면.
@@ -254,9 +255,9 @@ class StroopPreview extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(9),
           ),
-          child: const Text(
-            '빨강',
-            style: TextStyle(
+          child: Text(
+            context.l.colorRed,
+            style: const TextStyle(
               fontFamily: 'Jua',
               fontSize: 17,
               color: GameColors.blue, // 뜻과 색이 다른 함정

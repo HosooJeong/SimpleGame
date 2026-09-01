@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -114,7 +116,7 @@ class _HalfCutPlayState extends State<HalfCutPlay> {
       child: Column(
         children: [
           const SizedBox(height: 4),
-          Text('라운드 $_round / $rounds  ·  $_total점',
+          Text(context.l.roundProgressScore(_round, rounds, _total),
               style: textTheme.bodyMedium),
           const Spacer(),
           Container(
@@ -146,13 +148,13 @@ class _HalfCutPlayState extends State<HalfCutPlay> {
           SizedBox(
             height: 64,
             child: _roundPoints != null
-                ? Text('$_roundPoints점!',
+                ? Text(context.l.pointsGained(_roundPoints!),
                     style: textTheme.displaySmall!
                         .copyWith(color: darken(accent, 0.12)))
                 : Text(
                     _cutX == null
-                        ? '도형을 눌러 절단선을 잡으세요'
-                        : '드래그로 옮기고, 놓으면 확정!',
+                        ? context.l.halfCutGrabCue
+                        : context.l.halfCutDragCue,
                     style: textTheme.bodyMedium!
                         .copyWith(color: AppColors.textDim)),
           ),

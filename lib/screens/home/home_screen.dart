@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/app_scope.dart';
 import '../../app/chunky_button.dart';
-import '../../app/strings.dart';
+import '../../app/l10n_context.dart';
 import '../../app/theme.dart';
 import '../../games/game_registry.dart';
 import '../../games/shell/game_definition.dart';
@@ -41,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final records = AppScope.of(context).records;
+    final l = context.l;
     final topPad = MediaQuery.paddingOf(context).top;
 
     return Scaffold(
@@ -62,9 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              Strings.appName,
-                              style: TextStyle(
+                            Text(
+                              l.appName,
+                              style: const TextStyle(
                                 fontFamily: 'BlackHanSans',
                                 fontSize: 34,
                                 color: AppColors.accent,
@@ -72,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Text(
-                              Strings.homeTagline,
+                              l.homeTagline,
                               style: const TextStyle(
                                 fontFamily: 'Jua',
                                 fontSize: 15,
@@ -164,6 +165,7 @@ class _GameTileState extends State<_GameTile> {
   Widget build(BuildContext context) {
     final game = widget.game;
     final best = widget.best;
+    final l = context.l;
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _pressed = true),
@@ -229,7 +231,7 @@ class _GameTileState extends State<_GameTile> {
                     children: [
                       Expanded(child: Center(child: game.buildPreview())),
                       Text(
-                        game.title,
+                        game.title(l),
                         style: const TextStyle(
                           fontFamily: 'Jua',
                           fontSize: 17,
@@ -261,7 +263,7 @@ class _GameTileState extends State<_GameTile> {
                         Text.rich(
                           TextSpan(children: [
                             TextSpan(
-                              text: '${Strings.bestPrefix} ',
+                              text: '${l.bestPrefix} ',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w800,
@@ -270,7 +272,7 @@ class _GameTileState extends State<_GameTile> {
                               ),
                             ),
                             TextSpan(
-                              text: game.formatScore(best),
+                              text: game.formatScore(l, best),
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,

@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -62,7 +64,7 @@ class _CircleDrawPlayState extends State<CircleDrawPlay> {
 
   void _judge() {
     if (_points.length < minPoints) {
-      _invalid('더 크게, 끝까지 이어서 그리세요');
+      _invalid(context.l.circleDrawKeepGoing);
       return;
     }
 
@@ -80,7 +82,7 @@ class _CircleDrawPlayState extends State<CircleDrawPlay> {
     }
     final meanRadius = radiusSum / _points.length;
     if (meanRadius < minRadius) {
-      _invalid('너무 작아요! 크게 그리세요');
+      _invalid(context.l.circleDrawTooSmall);
       return;
     }
 
@@ -96,7 +98,7 @@ class _CircleDrawPlayState extends State<CircleDrawPlay> {
       prevAngle = angle;
     }
     if (sweep.abs() < minSweepRad) {
-      _invalid('원이 닫히지 않았어요! 한 바퀴를 이으세요');
+      _invalid(context.l.circleDrawNotClosed);
       return;
     }
 
@@ -143,7 +145,7 @@ class _CircleDrawPlayState extends State<CircleDrawPlay> {
                 ? Text('${_score!.toStringAsFixed(1)}%',
                     style: textTheme.displaySmall!
                         .copyWith(color: darken(accent, 0.12)))
-                : Text('한 획으로 완벽한 원을!',
+                : Text(context.l.circleDrawCue,
                     style: textTheme.titleLarge),
           ),
           SizedBox(

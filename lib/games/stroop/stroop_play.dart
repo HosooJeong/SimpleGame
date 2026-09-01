@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -19,7 +21,14 @@ class _StroopPlayState extends State<StroopPlay> {
   static const totalMs = 30000;
   static const accent = GameColors.indigo;
 
-  static const _words = ['빨강', '파랑', '초록', '노랑', '보라'];
+  /// 색 이름은 언어마다 다르므로 표시 시점에 꺼낸다. _inks 와 순서가 같아야 한다.
+  static List<String> _wordsOf(BuildContext context) => [
+        context.l.colorRed,
+        context.l.colorBlue,
+        context.l.colorGreen,
+        context.l.colorYellow,
+        context.l.colorPurple,
+      ];
   static const _inks = [
     GameColors.red,
     GameColors.blue,
@@ -63,12 +72,12 @@ class _StroopPlayState extends State<StroopPlay> {
   }
 
   void _nextProblem() {
-    _wordIndex = _random.nextInt(_words.length);
+    _wordIndex = _random.nextInt(_inks.length);
     // 절반 확률로 뜻과 색을 일치시킨다.
     _inkIndex = _random.nextBool()
         ? _wordIndex
-        : (_wordIndex + 1 + _random.nextInt(_words.length - 1)) %
-            _words.length;
+        : (_wordIndex + 1 + _random.nextInt(_inks.length - 1)) %
+            _inks.length;
   }
 
   void _answer(bool saidMatch) {
@@ -104,7 +113,7 @@ class _StroopPlayState extends State<StroopPlay> {
       child: Column(
         children: [
           const SizedBox(height: 4),
-          Text('$_score점', style: textTheme.displaySmall),
+          Text(context.l.countPoints('$_score'), style: textTheme.displaySmall),
           const SizedBox(height: 10),
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
@@ -130,7 +139,7 @@ class _StroopPlayState extends State<StroopPlay> {
                 ),
                 child: Center(
                   child: Text(
-                    _words[_wordIndex],
+                    _wordsOf(context)[_wordIndex],
                     style: TextStyle(
                       fontFamily: 'BlackHanSans',
                       fontSize: 58,
@@ -146,7 +155,7 @@ class _StroopPlayState extends State<StroopPlay> {
               Expanded(
                 child: _OxButton(
                   label: 'O',
-                  caption: '일치',
+                  caption: context.l.stroopMatch,
                   color: AppColors.success,
                   onPressed: () => _answer(true),
                 ),
@@ -155,7 +164,7 @@ class _StroopPlayState extends State<StroopPlay> {
               Expanded(
                 child: _OxButton(
                   label: 'X',
-                  caption: '불일치',
+                  caption: context.l.stroopMismatch,
                   color: AppColors.danger,
                   onPressed: () => _answer(false),
                 ),

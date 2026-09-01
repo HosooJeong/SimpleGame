@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/app_scope.dart';
-import '../../app/strings.dart';
+import '../../app/l10n_context.dart';
 import '../../app/theme.dart';
 import '../../games/game_registry.dart';
 import 'sparkline.dart';
@@ -13,9 +13,10 @@ class StatsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final records = AppScope.of(context).records;
     final textTheme = Theme.of(context).textTheme;
+    final l = context.l;
 
     return Scaffold(
-      appBar: AppBar(title: const Text(Strings.stats)),
+      appBar: AppBar(title: Text(l.stats)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -42,18 +43,18 @@ class StatsScreen extends StatelessWidget {
                               Icon(game.icon, color: game.accent, size: 18),
                         ),
                         const SizedBox(width: 10),
-                        Text(game.title, style: textTheme.titleLarge),
+                        Text(game.title(l), style: textTheme.titleLarge),
                         const Spacer(),
-                        Text('${record.plays}${Strings.playsSuffix}',
+                        Text(l.playsCount(record.plays),
                             style: textTheme.bodySmall),
                       ],
                     ),
                     const SizedBox(height: 12),
                     if (record.plays == 0)
-                      Text(Strings.noStatsYet, style: textTheme.bodySmall)
+                      Text(l.noStatsYet, style: textTheme.bodySmall)
                     else ...[
                       Text(
-                        game.formatScore(record.best!),
+                        game.formatScore(l, record.best!),
                         style: textTheme.displaySmall!
                             .copyWith(color: game.accent, fontSize: 28),
                       ),

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -65,11 +67,11 @@ class _TimerTenPlayState extends State<TimerTenPlay> {
       content = Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('$sec초',
+          Text(context.l.timerTenSeconds(sec),
               style: textTheme.displayLarge!
                   .copyWith(color: AppColors.accent)),
           const SizedBox(height: 12),
-          Text('목표: 10.00초', style: textTheme.bodySmall),
+          Text(context.l.timerTenTarget, style: textTheme.bodySmall),
         ],
       );
     } else if (elapsed < visibleMs) {
@@ -79,7 +81,7 @@ class _TimerTenPlayState extends State<TimerTenPlay> {
           Text((elapsed / 1000).toStringAsFixed(2),
               style: textTheme.displayLarge),
           const SizedBox(height: 12),
-          Text('곧 가려집니다...', style: textTheme.bodySmall),
+          Text(context.l.timerTenHiding, style: textTheme.bodySmall),
         ],
       );
     } else {
@@ -89,7 +91,7 @@ class _TimerTenPlayState extends State<TimerTenPlay> {
           const Icon(Icons.visibility_off_rounded,
               size: 64, color: AppColors.textDim),
           const SizedBox(height: 16),
-          Text('감각으로 10.00초에 터치!',
+          Text(context.l.timerTenCue,
               style: textTheme.bodyMedium!
                   .copyWith(color: AppColors.textDim)),
         ],

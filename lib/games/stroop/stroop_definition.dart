@@ -8,13 +8,13 @@ import 'stroop_play.dart';
 
 final stroopGame = GameDefinition(
   id: 'stroop',
-  title: '색깔 함정',
-  howTo: '단어의 뜻과 글자 색이 일치하면 O,\n다르면 X를 누르세요.\n30초 동안 최대한 많이! (오답은 -1점)',
+  title: (l) => l.stroopTitle,
+  howTo: (l) => l.stroopHowTo,
   icon: Icons.format_color_text_rounded,
   accent: GameColors.indigo,
   buildPreview: () => const StroopPreview(),
   order: ScoreOrder.higherIsBetter,
-  formatScore: (s) => '$s점',
-  shareBody: (s) => '색깔 함정 테스트 $s점.\n네 뇌는 안 속을 자신 있어?',
+  formatScore: (l, s) => l.countPoints('$s'),
+  shareBody: (l, s) => l.stroopShare('$s'),
   buildPlay: (session) => StroopPlay(session: session),
 );

@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -105,7 +107,7 @@ class _OddTilePlayState extends State<OddTilePlay> {
       child: Column(
         children: [
           const SizedBox(height: 8),
-          Text('$_level단계', style: textTheme.displaySmall),
+          Text(context.l.countLevel('$_level'), style: textTheme.displaySmall),
           const SizedBox(height: 12),
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
@@ -119,8 +121,8 @@ class _OddTilePlayState extends State<OddTilePlay> {
           const SizedBox(height: 4),
           Text(
             _showAnswer
-                ? '시간 종료! 정답은 여기'
-                : '${(_timeLeftMs / 1000).toStringAsFixed(1)}초',
+                ? context.l.oddTileTimeUp
+                : context.l.countSeconds((_timeLeftMs / 1000).toStringAsFixed(1)),
             style: _showAnswer
                 ? textTheme.bodyMedium!.copyWith(color: AppColors.danger)
                 : textTheme.bodySmall,

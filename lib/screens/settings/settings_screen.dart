@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/app_scope.dart';
-import '../../app/strings.dart';
+import '../../app/l10n_context.dart';
 import '../../app/theme.dart';
 import '../../games/game_registry.dart';
 
@@ -10,20 +10,21 @@ class SettingsScreen extends StatelessWidget {
 
   Future<void> _confirmReset(BuildContext context) async {
     final scope = AppScope.of(context);
+    final l = context.l;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(Strings.resetConfirmTitle),
-        content: const Text(Strings.resetConfirmBody),
+        title: Text(l.resetConfirmTitle),
+        content: Text(l.resetConfirmBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text(Strings.cancel),
+            child: Text(l.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text(Strings.delete,
-                style: TextStyle(color: AppColors.danger)),
+            child: Text(l.delete,
+                style: const TextStyle(color: AppColors.danger)),
           ),
         ],
       ),
@@ -32,7 +33,7 @@ class SettingsScreen extends StatelessWidget {
     await scope.records.resetAll([for (final g in allGames) g.id]);
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text(Strings.resetDone)),
+      SnackBar(content: Text(l.resetDone)),
     );
   }
 
@@ -40,21 +41,22 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final scope = AppScope.of(context);
     final settings = scope.settings;
+    final l = context.l;
 
     return Scaffold(
-      appBar: AppBar(title: const Text(Strings.settings)),
+      appBar: AppBar(title: Text(l.settings)),
       body: ListenableBuilder(
         listenable: settings,
         builder: (context, _) => ListView(
           children: [
             SwitchListTile(
-              title: const Text(Strings.sound),
+              title: Text(l.sound),
               secondary: const Icon(Icons.volume_up),
               value: settings.soundOn,
               onChanged: settings.setSound,
             ),
             SwitchListTile(
-              title: const Text(Strings.haptics),
+              title: Text(l.haptics),
               secondary: const Icon(Icons.vibration),
               value: settings.hapticsOn,
               onChanged: settings.setHaptics,
@@ -62,12 +64,12 @@ class SettingsScreen extends StatelessWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.share),
-              title: const Text(Strings.shareApp),
+              title: Text(l.shareApp),
               onTap: () async {
-                final shared = await scope.share.shareApp();
+                final shared = await scope.share.shareApp(l);
                 if (!shared && context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text(Strings.copiedFallback)),
+                    SnackBar(content: Text(l.copiedFallback)),
                   );
                 }
               },
@@ -75,8 +77,8 @@ class SettingsScreen extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.delete_outline,
                   color: AppColors.danger),
-              title: const Text(Strings.resetRecords,
-                  style: TextStyle(color: AppColors.danger)),
+              title: Text(l.resetRecords,
+                  style: const TextStyle(color: AppColors.danger)),
               onTap: () => _confirmReset(context),
             ),
           ],

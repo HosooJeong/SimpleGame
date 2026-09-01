@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -93,13 +95,13 @@ class _ReactionPlayState extends State<ReactionPlay> {
     final (Color bg, Widget content) = switch (_phase) {
       _RoundPhase.waiting => (
           AppColors.danger,
-          Text('초록색이 되면\n바로 터치!',
+          Text(context.l.reactionWaitCue,
               style: textTheme.displaySmall!.copyWith(color: Colors.white),
               textAlign: TextAlign.center),
         ),
       _RoundPhase.ready => (
           AppColors.success,
-          Text('지금 터치!',
+          Text(context.l.reactionGoCue,
               style: textTheme.displaySmall!.copyWith(color: Colors.white)),
         ),
       _RoundPhase.roundResult => (
@@ -110,7 +112,7 @@ class _ReactionPlayState extends State<ReactionPlay> {
         ),
       _RoundPhase.falseStart => (
           AppColors.bg,
-          Text('너무 빨라요\n초록색을 기다리세요',
+          Text(context.l.reactionTooEarly,
               style: textTheme.displaySmall!
                   .copyWith(color: AppColors.danger),
               textAlign: TextAlign.center),
@@ -130,7 +132,7 @@ class _ReactionPlayState extends State<ReactionPlay> {
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Text(
-                  '라운드 ${(_results.length + 1).clamp(1, rounds)} / $rounds',
+                  context.l.roundProgress((_results.length + 1).clamp(1, rounds), rounds),
                   style: textTheme.bodyMedium!.copyWith(
                     color:
                         onColoredBg ? Colors.white70 : AppColors.textDim,

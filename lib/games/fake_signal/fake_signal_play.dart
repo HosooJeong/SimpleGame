@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -100,7 +102,7 @@ class _FakeSignalPlayState extends State<FakeSignalPlay> {
         _greenRun = 0;
         _pass();
       } else {
-        _fail('신호를 놓쳤어요!');
+        _fail(context.l.fakeSignalMissed);
       }
     });
   }
@@ -122,10 +124,10 @@ class _FakeSignalPlayState extends State<FakeSignalPlay> {
     switch (_phase) {
       case _Phase.gap:
         _failedInGap = true;
-        _fail('신호가 없을 때 터치했어요!');
+        _fail(context.l.fakeSignalTooSoon);
       case _Phase.signal:
         if (_isFake) {
-          _fail('가짜 신호에 낚였어요!');
+          _fail(context.l.fakeSignalBaited);
         } else {
           widget.session.fx.tapLight();
           _greenRun++;
@@ -161,17 +163,17 @@ class _FakeSignalPlayState extends State<FakeSignalPlay> {
         child: Column(
           children: [
             const SizedBox(height: 4),
-            Text('$_streak개', style: textTheme.displaySmall),
+            Text(context.l.countItems('$_streak'), style: textTheme.displaySmall),
             SizedBox(
               height: 24,
               child: Text(
                 dead
                     ? _failReason!
                     : _phase == _Phase.gap
-                        ? '기다리세요...'
+                        ? context.l.fakeSignalWait
                         : _isFake
-                            ? '참아!'
-                            : '터치!',
+                            ? context.l.fakeSignalHold
+                            : context.l.fakeSignalTap,
                 style: textTheme.bodyMedium!.copyWith(
                   color: dead ? AppColors.danger : AppColors.textDim,
                 ),

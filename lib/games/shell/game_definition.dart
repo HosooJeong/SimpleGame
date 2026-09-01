@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/game_record.dart';
 import 'game_session.dart';
 
@@ -20,10 +21,13 @@ class GameDefinition {
 
   /// 영구 저장 키 — 출시 후 절대 변경 금지.
   final String id;
-  final String title;
+
+  /// 표시용 텍스트는 전부 AppLocalizations 를 받아 꺼낸다.
+  /// 문구 자체는 lib/l10n/app_*.arb 에 있고 여기서는 어떤 키를 쓸지만 고른다.
+  final String Function(AppLocalizations l) title;
 
   /// 인트로 화면에 보여줄 게임 방법 설명.
-  final String howTo;
+  final String Function(AppLocalizations l) howTo;
   final IconData icon;
   final Color accent;
 
@@ -32,10 +36,10 @@ class GameDefinition {
   final ScoreOrder order;
 
   /// 점수 표시 형식. 예: 234 → '234ms'
-  final String Function(num score) formatScore;
+  final String Function(AppLocalizations l, num score) formatScore;
 
   /// 공유 메시지용 자랑 문구 한 줄.
-  final String Function(num score) shareBody;
+  final String Function(AppLocalizations l, num score) shareBody;
 
   /// 플레이 위젯 생성. 게임이 끝나면 session.finish(score)를 호출한다.
   final Widget Function(GameSession session) buildPlay;

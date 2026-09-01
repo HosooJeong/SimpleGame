@@ -28,14 +28,20 @@ EXTRA_SYMBOLS = '·–—…‘’“”×÷℃％「」『』〈〉《》•→
 
 
 def chars_in_sources(repo_root):
-    """lib 아래 Dart 소스에 등장하는 모든 문자.
+    """lib 아래 Dart 소스와 번역 파일(.arb)에 등장하는 모든 문자.
 
     문자열 리터럴만 골라내지 않고 파일 전체를 훑는다. 식별자·키워드는 어차피
     ASCII라 결과에 영향이 없고, 파싱 실수로 문구를 빠뜨릴 위험이 사라진다.
+
+    .arb 도 함께 읽는 이유: UI 문구의 원본은 lib/l10n/app_*.arb 이고, 거기서
+    생성되는 Dart 파일은 커밋하지 않는다. .dart 만 훑으면 코드 생성 전에는
+    번역문이 통째로 빠져 글자가 □ 로 깨진다.
     """
     chars = set()
-    for path in sorted((repo_root / 'lib').rglob('*.dart')):
-        chars |= set(path.read_text(encoding='utf-8'))
+    lib = repo_root / 'lib'
+    for pattern in ('*.dart', '*.arb'):
+        for path in sorted(lib.rglob(pattern)):
+            chars |= set(path.read_text(encoding='utf-8'))
     return {ch for ch in chars if ch.isprintable() and not ch.isspace()}
 
 

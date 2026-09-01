@@ -7,6 +7,7 @@ import 'package:simple_game/core/records_repository.dart';
 import 'package:simple_game/core/settings_controller.dart';
 import 'package:simple_game/core/share_service.dart';
 import 'package:simple_game/games/shell/game_definition.dart';
+import 'package:simple_game/l10n/app_localizations.dart';
 import 'package:simple_game/games/shell/game_shell_screen.dart';
 import 'package:simple_game/models/game_record.dart';
 
@@ -36,14 +37,14 @@ void main() {
 
   final fakeGame = GameDefinition(
     id: 'fake',
-    title: '가짜 게임',
-    howTo: '설명',
+    title: (l) => '가짜 게임',
+    howTo: (l) => '설명',
     icon: Icons.videogame_asset,
     accent: Colors.teal,
     buildPreview: () => const SizedBox.shrink(),
     order: ScoreOrder.higherIsBetter,
-    formatScore: (s) => '$s점',
-    shareBody: (s) => '$s점 달성',
+    formatScore: (l, s) => '$s점',
+    shareBody: (l, s) => '$s점 달성',
     buildPlay: (session) =>
         _InstantFinishPlay(onMount: () => session.finish(42)),
   );
@@ -60,7 +61,13 @@ void main() {
       records: records,
       fx: FeedbackService(settings),
       share: const ShareService(),
-      child: MaterialApp(home: GameShellScreen(definition: definition)),
+      child: MaterialApp(
+        // 셸 문구를 한국어로 고정해 검증한다. 언어 분기 자체는 widget_test 에서 본다.
+        locale: const Locale('ko'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: GameShellScreen(definition: definition),
+      ),
     );
   }
 

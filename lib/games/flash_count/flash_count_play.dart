@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -130,16 +132,18 @@ class _FlashCountPlayState extends State<FlashCountPlay> {
       child: Column(
         children: [
           const SizedBox(height: 4),
-          Text('$_level단계', style: textTheme.displaySmall),
+          Text(context.l.countLevel('$_level'), style: textTheme.displaySmall),
           SizedBox(
             height: 24,
             child: Text(
               switch (_phase) {
-                _Phase.flash => '몇 개?!',
+                _Phase.flash => context.l.flashCountPrompt,
                 _Phase.blank => '',
-                _Phase.question => '몇 개였을까요?',
+                _Phase.question => context.l.flashCountAsk,
                 _Phase.reveal =>
-                  _failed ? '틀렸어요! 정답은 $_dotCount개' : '정답!',
+                  _failed
+            ? context.l.flashCountWrong(_dotCount)
+            : context.l.flashCountCorrect,
               },
               style: textTheme.bodyMedium!.copyWith(
                 color: _failed ? AppColors.danger : AppColors.textDim,

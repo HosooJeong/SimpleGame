@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
 import '../../core/feedback_service.dart';
 
 /// 공용 3-2-1 카운트다운 오버레이.
@@ -57,7 +58,7 @@ class _CountdownViewState extends State<CountdownView> {
         transitionBuilder: (child, anim) =>
             ScaleTransition(scale: anim, child: child),
         child: Text(
-          _count > 0 ? '$_count' : '시작!',
+          _count > 0 ? '$_count' : context.l.countdownGo,
           key: ValueKey(_count),
           style: Theme.of(context)
               .textTheme

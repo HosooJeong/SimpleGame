@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -133,10 +135,12 @@ class _ShuffleTrackPlayState extends State<ShuffleTrackPlay>
   }
 
   String get _hint => switch (_phase) {
-        _Phase.showStar => '별을 기억하세요',
-        _Phase.shuffling => '눈으로 쫓으세요!',
-        _Phase.answer => '별은 어디에?',
-        _Phase.reveal => _failed ? '아깝다! 별은 여기 있었어요' : '정확해요!',
+        _Phase.showStar => context.l.shuffleTrackMemorize,
+        _Phase.shuffling => context.l.shuffleTrackFollow,
+        _Phase.answer => context.l.shuffleTrackWhere,
+        _Phase.reveal => _failed
+            ? context.l.shuffleTrackWrong
+            : context.l.shuffleTrackCorrect,
       };
 
   @override
@@ -148,7 +152,7 @@ class _ShuffleTrackPlayState extends State<ShuffleTrackPlay>
       child: Column(
         children: [
           const SizedBox(height: 4),
-          Text('$_level단계', style: textTheme.displaySmall),
+          Text(context.l.countLevel('$_level'), style: textTheme.displaySmall),
           SizedBox(
             height: 24,
             child: Text(

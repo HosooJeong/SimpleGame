@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/chunky_button.dart';
-import '../../app/strings.dart';
+import '../../app/l10n_context.dart';
 import '../../app/theme.dart';
 import 'game_definition.dart';
 
@@ -31,6 +31,7 @@ class ResultView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final l = context.l;
     final aborted = score == null;
 
     return Padding(
@@ -43,7 +44,7 @@ class ResultView extends StatelessWidget {
                 size: 56, color: AppColors.textDim),
             const SizedBox(height: 16),
             Text(
-              abortMessage ?? '게임이 중단됐어요',
+              abortMessage ?? l.aborted,
               style: textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
@@ -56,7 +57,7 @@ class ResultView extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    definition.title,
+                    definition.title(l),
                     style: const TextStyle(
                       fontFamily: 'Jua',
                       fontSize: 17,
@@ -65,7 +66,7 @@ class ResultView extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    definition.formatScore(score!),
+                    definition.formatScore(l, score!),
                     style: textTheme.displayLarge!.copyWith(
                       fontSize: 54,
                       color: definition.accent,
@@ -86,15 +87,15 @@ class ResultView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.star_rounded,
+                          const Icon(Icons.star_rounded,
                               size: 18, color: Colors.white),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           Text(
-                            Strings.newRecord,
-                            style: TextStyle(
+                            l.newRecord,
+                            style: const TextStyle(
                               fontFamily: 'Jua',
                               fontSize: 16,
                               color: Colors.white,
@@ -105,7 +106,7 @@ class ResultView extends StatelessWidget {
                     )
                   else if (best != null)
                     Text(
-                      '${Strings.bestPrefix} ${definition.formatScore(best!)}',
+                      '${l.bestPrefix} ${definition.formatScore(l, best!)}',
                       style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
@@ -118,7 +119,7 @@ class ResultView extends StatelessWidget {
           const Spacer(),
           if (!aborted) ...[
             ChunkyButton(
-              label: Strings.share,
+              label: l.share,
               color: GameColors.blue,
               icon: Icons.share_rounded,
               onPressed: onShare,
@@ -126,7 +127,7 @@ class ResultView extends StatelessWidget {
             const SizedBox(height: 10),
           ],
           ChunkyButton(
-            label: Strings.retry,
+            label: l.retry,
             color: AppColors.success,
             icon: Icons.replay_rounded,
             onPressed: onRetry,
@@ -134,9 +135,9 @@ class ResultView extends StatelessWidget {
           const SizedBox(height: 2),
           TextButton(
             onPressed: onHome,
-            child: const Text(
-              Strings.home,
-              style: TextStyle(
+            child: Text(
+              l.home,
+              style: const TextStyle(
                 fontFamily: 'Jua',
                 fontSize: 15,
                 color: AppColors.textDim,

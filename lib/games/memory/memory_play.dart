@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -103,16 +105,17 @@ class _MemoryPlayState extends State<MemoryPlay> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final hint = switch (_phase) {
-      _MemPhase.showing => '잘 보세요...',
-      _MemPhase.input => '따라 누르세요!',
+      _MemPhase.showing => context.l.memoryWatch,
+      _MemPhase.input => context.l.memoryRepeat,
       _MemPhase.transition => '',
-      _MemPhase.failed => '틀렸어요! 정답은 초록색',
+      _MemPhase.failed => context.l.memoryWrong,
     };
 
     return Column(
       children: [
         const SizedBox(height: 24),
-        Text('${_sequence.length}단계', style: textTheme.displaySmall),
+        Text(context.l.countLevel('${_sequence.length}'),
+              style: textTheme.displaySmall),
         SizedBox(
           height: 28,
           child: Text(hint, style: textTheme.bodyMedium),

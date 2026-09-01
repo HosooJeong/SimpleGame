@@ -43,3 +43,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# gen_l10n 생성물 — 원본은 lib/l10n/*.arb 이고 빌드할 때 다시 생성된다.
+/lib/l10n/app_localizations*.dart

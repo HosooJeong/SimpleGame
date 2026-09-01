@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -104,15 +106,15 @@ class _ChimpPlayState extends State<ChimpPlay> {
       child: Column(
         children: [
           const SizedBox(height: 4),
-          Text('$_count개', style: textTheme.displaySmall),
+          Text(context.l.countItems('$_count'), style: textTheme.displaySmall),
           SizedBox(
             height: 24,
             child: Text(
               _failed
-                  ? '틀렸어요! 다음은 $_next이었어요'
+                  ? context.l.chimpWrong(_next)
                   : _revealed
-                      ? '위치를 기억하세요'
-                      : '순서대로 터치!',
+                      ? context.l.chimpMemorize
+                      : context.l.chimpTapInOrder,
               style: textTheme.bodyMedium!.copyWith(
                   color:
                       _failed ? AppColors.danger : AppColors.textDim),

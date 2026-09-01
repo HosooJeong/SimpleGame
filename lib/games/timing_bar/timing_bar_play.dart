@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -80,7 +82,7 @@ class _TimingBarPlayState extends State<TimingBarPlay>
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: Text('라운드 $_round / $rounds  ·  $_total점',
+              child: Text(context.l.roundProgressScore(_round, rounds, _total),
                   style: textTheme.bodyMedium),
             ),
             Expanded(
@@ -136,10 +138,10 @@ class _TimingBarPlayState extends State<TimingBarPlay>
                       SizedBox(
                         height: 80,
                         child: _roundPoints != null
-                            ? Text('$_roundPoints점!',
+                            ? Text(context.l.pointsGained(_roundPoints!),
                                 style: textTheme.displaySmall!
                                     .copyWith(color: accent))
-                            : Text('정중앙에서 터치!',
+                            : Text(context.l.timingBarCue,
                                 style: textTheme.bodyMedium!
                                     .copyWith(color: AppColors.textDim)),
                       ),

@@ -1,0 +1,238 @@
+{
+  "@@locale": "en",
+
+  "appName": "Snack Game",
+  "appTagline": "Bite-sized brain games",
+  "homeTagline": "Prove your limits",
+
+  "start": "Start",
+  "retry": "Again",
+  "share": "Brag",
+  "home": "Home",
+  "newRecord": "New record!",
+  "bestPrefix": "BEST",
+  "noRecord": "Nobody has taken this on yet",
+  "aborted": "Game stopped",
+  "countdownGo": "Go!",
+
+  "stats": "Records",
+  "settings": "Settings",
+  "sound": "Sound",
+  "haptics": "Vibration",
+  "resetRecords": "Reset all records",
+  "resetConfirmTitle": "Erase every record?",
+  "resetConfirmBody": "All best scores and stats will be deleted. This cannot be undone.",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "resetDone": "Records reset",
+  "copiedFallback": "Sharing isn't available here, so it was copied instead",
+  "shareApp": "Share with a friend",
+  "shareAppBody": "Bite-sized brain games for killing time.\nReaction speed, memory, and everything in between.",
+  "noStatsYet": "No records yet",
+  "playsCount": "{count, plural, other{{count} plays}}",
+  "@playsCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "roundProgress": "Round {round} / {total}",
+  "@roundProgress": {
+    "placeholders": { "round": { "type": "int" }, "total": { "type": "int" } }
+  },
+  "roundProgressScore": "Round {round} / {total}  ·  {score} pts",
+  "@roundProgressScore": {
+    "placeholders": {
+      "round": { "type": "int" },
+      "total": { "type": "int" },
+      "score": { "type": "int" }
+    }
+  },
+  "pointsGained": "{points} pts!",
+  "@pointsGained": {
+    "placeholders": { "points": { "type": "int" } }
+  },
+
+  "colorRed": "Red",
+  "colorBlue": "Blue",
+  "colorGreen": "Green",
+  "colorYellow": "Yellow",
+  "colorPurple": "Purple",
+
+  "reactionTitle": "Reaction",
+  "reactionHowTo": "Tap the instant the red screen\nturns green. As fast as you can.\nYour score is the average of 5 rounds.\nTap too early and the round restarts!",
+  "reactionShare": "Averaged {ms}ms reaction time.\nBeat that and I'll admit it.",
+  "@reactionShare": {
+    "placeholders": { "ms": { "type": "String" } }
+  },
+  "reactionWaitCue": "Tap the moment\nit turns green!",
+  "reactionGoCue": "Tap now!",
+  "reactionTooEarly": "Too early\nWait for green",
+
+  "numberGridTitle": "Number Order",
+  "numberGridHowTo": "Tap the scattered numbers from 1 to 25\nin order, as fast as you can!",
+  "numberGridScore": "{seconds}s",
+  "@numberGridScore": {
+    "placeholders": { "seconds": { "type": "String" } }
+  },
+  "numberGridShare": "Cleared 1 to 25 in {seconds}s.\nThink you can go faster?",
+  "@numberGridShare": {
+    "placeholders": { "seconds": { "type": "String" } }
+  },
+  "numberGridNext": "Next: {number}",
+  "@numberGridNext": {
+    "placeholders": { "number": { "type": "int" } }
+  },
+
+  "tapSpeedTitle": "Tap Speed",
+  "tapSpeedHowTo": "The 10-second timer starts on your first tap.\nTap the screen as many times as you can!",
+  "tapSpeedScore": "{count} taps",
+  "@tapSpeedScore": {
+    "placeholders": { "count": { "type": "String" } }
+  },
+  "tapSpeedShare": "Tapped {count} times in 10 seconds.\nAnyone faster?",
+  "@tapSpeedShare": {
+    "placeholders": { "count": { "type": "String" } }
+  },
+  "tapSpeedKeepTapping": "Keep tapping!",
+  "tapSpeedStartCue": "Tap to start!",
+
+  "timingBarTitle": "Timing Stop",
+  "timingBarHowTo": "Tap to stop the circle when it hits\nthe dead center.\n5 rounds, faster every round!\n(100 pts per round, 500 max)",
+  "timingBarShare": "Timing Stop: {score} out of 500.\nThink your timing is better?",
+  "@timingBarShare": {
+    "placeholders": { "score": { "type": "String" } }
+  },
+  "timingBarCue": "Tap at dead center!",
+
+  "memoryTitle": "Sequence",
+  "memoryHowTo": "The four buttons flash in order.\nMemorize it, then tap it back.\nEach success adds one more step!",
+  "memoryShare": "Made it to step {level} in Sequence.\nHow far does your memory go?",
+  "@memoryShare": {
+    "placeholders": { "level": { "type": "String" } }
+  },
+  "memoryWatch": "Watch closely...",
+  "memoryRepeat": "Now repeat it!",
+  "memoryWrong": "Wrong! It was green",
+
+  "timerTenTitle": "Exactly 10s",
+  "timerTenHowTo": "The timer shows only the first 3 seconds,\nthen it hides. Tap the screen at exactly\n10.00 seconds — by feel alone!",
+  "timerTenScore": "±{seconds}s",
+  "@timerTenScore": {
+    "placeholders": { "seconds": { "type": "String" } }
+  },
+  "timerTenShare": "Called 10 seconds blind, off by ±{seconds}s.\nTest your own clock.",
+  "@timerTenShare": {
+    "placeholders": { "seconds": { "type": "String" } }
+  },
+  "timerTenSeconds": "{seconds}s",
+  "@timerTenSeconds": {
+    "placeholders": { "seconds": { "type": "String" } }
+  },
+  "timerTenTarget": "Target: 10.00s",
+  "timerTenHiding": "Hiding soon...",
+  "timerTenCue": "Tap at 10.00s by feel!",
+
+  "oddTileTitle": "Odd Color",
+  "oddTileHowTo": "Tap the one tile with a slightly\ndifferent color.\nIt gets harder every level.\n30 seconds, and a miss costs you 2!",
+  "oddTileShare": "Cleared level {level} of Odd Color.\nGot a sharp eye? Prove it.",
+  "@oddTileShare": {
+    "placeholders": { "level": { "type": "String" } }
+  },
+  "oddTileTimeUp": "Time's up! It was here",
+
+  "stroopTitle": "Color Trap",
+  "stroopHowTo": "If the word matches its ink color, tap O.\nIf not, tap X.\nAs many as you can in 30 seconds!\n(a miss costs 1 point)",
+  "stroopShare": "Scored {score} on Color Trap.\nSure your brain won't fall for it?",
+  "@stroopShare": {
+    "placeholders": { "score": { "type": "String" } }
+  },
+  "stroopMatch": "Match",
+  "stroopMismatch": "No match",
+
+  "chimpTitle": "Chimp Test",
+  "chimpHowTo": "Memorize where the numbers are.\nThey hide the moment you tap 1.\nClear them in order and one more appears.\n(Chimps average about 9)",
+  "chimpShare": "Held {count} numbers at a glance.\nChimps average 9. How about you?",
+  "@chimpShare": {
+    "placeholders": { "count": { "type": "String" } }
+  },
+  "chimpMemorize": "Memorize the positions",
+  "chimpTapInOrder": "Tap them in order!",
+  "chimpWrong": "Wrong! {number} was next",
+  "@chimpWrong": {
+    "placeholders": { "number": { "type": "int" } }
+  },
+
+  "halfCutTitle": "Half Cut",
+  "halfCutHowTo": "Drag the cutting line until both\nsides have the same area.\nRelease to lock it in. 5 rounds, new shape!\n(100 pts per round, 500 max)",
+  "halfCutShare": "Half Cut: {score} out of 500.\nHow good is your eye?",
+  "@halfCutShare": {
+    "placeholders": { "score": { "type": "String" } }
+  },
+  "halfCutGrabCue": "Press the shape to grab the line",
+  "halfCutDragCue": "Drag to move, release to lock!",
+
+  "circleDrawTitle": "Perfect Circle",
+  "circleDrawHowTo": "Draw the most perfect circle you can\nin a single stroke.\nIt's scored the moment you lift your finger.\nToo small or unclosed doesn't count!",
+  "circleDrawShare": "Drew a {percent}% perfect circle freehand.\nCan you do better in one stroke?",
+  "@circleDrawShare": {
+    "placeholders": { "percent": { "type": "String" } }
+  },
+  "circleDrawCue": "One stroke, one perfect circle!",
+  "circleDrawKeepGoing": "Bigger — keep the stroke going",
+  "circleDrawTooSmall": "Too small! Draw it bigger",
+  "circleDrawNotClosed": "The circle isn't closed! Complete the loop",
+
+  "shuffleTrackTitle": "Shuffle Track",
+  "shuffleTrackHowTo": "Keep your eyes on the tile with the star.\nWhen the shuffling stops, tap it!\nEvery level shuffles faster and more.",
+  "shuffleTrackShare": "Tracked the star to level {level}.\nThink your eyes keep up?",
+  "@shuffleTrackShare": {
+    "placeholders": { "level": { "type": "String" } }
+  },
+  "shuffleTrackMemorize": "Remember the star",
+  "shuffleTrackFollow": "Follow it!",
+  "shuffleTrackWhere": "Where's the star?",
+  "shuffleTrackCorrect": "Nailed it!",
+  "shuffleTrackWrong": "So close! It was here",
+
+  "flashCountTitle": "Flash Count",
+  "flashCountHowTo": "Dots appear for a split second, then vanish.\nCall how many there were.\nHigher levels mean more dots, shown shorter!",
+  "flashCountShare": "Cleared level {level} of Flash Count.\nHow many can you count in a blink?",
+  "@flashCountShare": {
+    "placeholders": { "level": { "type": "String" } }
+  },
+  "flashCountPrompt": "How many?!",
+  "flashCountAsk": "How many were there?",
+  "flashCountCorrect": "Correct!",
+  "flashCountWrong": "Wrong! There were {count}",
+  "@flashCountWrong": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "fakeSignalTitle": "Fake Signal",
+  "fakeSignalHowTo": "When the green signal lights up, tap\nbefore the white gauge runs out!\nNever touch the red fake signal.\nIt speeds up, and one slip ends it!",
+  "fakeSignalShare": "{count} fake signals in a row, clean.\nCome try not to take the bait.",
+  "@fakeSignalShare": {
+    "placeholders": { "count": { "type": "String" } }
+  },
+  "fakeSignalWait": "Wait...",
+  "fakeSignalHold": "Hold!",
+  "fakeSignalTap": "Tap!",
+  "fakeSignalMissed": "You missed the signal!",
+  "fakeSignalTooSoon": "You tapped with no signal!",
+  "fakeSignalBaited": "You took the bait!",
+
+  "countLevel": "Lv {level}",
+  "@countLevel": {
+    "placeholders": { "level": { "type": "String" } }
+  },
+  "countItems": "{count}",
+  "@countItems": {
+    "placeholders": { "count": { "type": "String" } }
+  },
+  "countPoints": "{score} pts",
+  "@countPoints": {
+    "placeholders": { "score": { "type": "String" } }
+  },
+  "countSeconds": "{seconds}s",
+  "@countSeconds": {
+    "placeholders": { "seconds": { "type": "String" } }
+  }
+}

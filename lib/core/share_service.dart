@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../app/strings.dart';
+import '../l10n/app_localizations.dart';
 
 class ShareService {
   const ShareService();
@@ -15,13 +15,16 @@ class ShareService {
 
   /// [body]는 게임별 자랑 문구(GameDefinition.shareBody) — 플레이 링크를 붙여 공유.
   /// 반환값이 false면 공유 시트를 못 열어 클립보드 복사로 대체된 것.
-  Future<bool> shareScore(String body, {required String gameId}) =>
-      _share(body, url: gameUrl(gameId));
+  Future<bool> shareScore(AppLocalizations l, String body,
+          {required String gameId}) =>
+      _share(l, body, url: gameUrl(gameId));
 
-  Future<bool> shareApp() => _share(Strings.shareAppBody, url: shareUrl);
+  Future<bool> shareApp(AppLocalizations l) =>
+      _share(l, l.shareAppBody, url: shareUrl);
 
-  Future<bool> _share(String body, {required String url}) async {
-    final text = '$body\n\n${Strings.appName} – ${Strings.appTagline}\n$url';
+  Future<bool> _share(AppLocalizations l, String body,
+      {required String url}) async {
+    final text = '$body\n\n${l.appName} – ${l.appTagline}\n$url';
     try {
       await SharePlus.instance.share(ShareParams(text: text));
       return true;

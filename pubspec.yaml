@@ -10,6 +10,8 @@ dependencies:
   audioplayers: ^6.7.1
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   share_plus: ^13.3.0
   shared_preferences: ^2.5.5
 
@@ -22,6 +24,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
     - assets/sfx/
   fonts:

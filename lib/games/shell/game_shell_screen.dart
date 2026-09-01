@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/app_scope.dart';
 import '../../app/chunky_button.dart';
-import '../../app/strings.dart';
+import '../../app/l10n_context.dart';
 import '../../app/theme.dart';
 import '../../models/game_record.dart';
 import 'countdown_view.dart';
@@ -100,12 +100,13 @@ class _GameShellScreenState extends State<GameShellScreen> {
 
   Future<void> _share() async {
     if (_score == null) return;
+    final l = context.l;
     final shared = await AppScope.of(context)
         .share
-        .shareScore(_def.shareBody(_score!), gameId: _def.id);
+        .shareScore(l, _def.shareBody(l, _score!), gameId: _def.id);
     if (!shared && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text(Strings.copiedFallback)),
+        SnackBar(content: Text(l.copiedFallback)),
       );
     }
   }
@@ -200,6 +201,7 @@ class _IntroView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final l = context.l;
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -230,7 +232,7 @@ class _IntroView extends StatelessWidget {
           ),
           const SizedBox(height: 22),
           Text(
-            definition.title,
+            definition.title(l),
             style: textTheme.displaySmall!.copyWith(fontSize: 32),
             textAlign: TextAlign.center,
           ),
@@ -239,7 +241,7 @@ class _IntroView extends StatelessWidget {
             padding: const EdgeInsets.all(18),
             decoration: cardDecoration(radius: 16),
             child: Text(
-              definition.howTo,
+              definition.howTo(l),
               style: textTheme.bodyMedium!.copyWith(height: 1.7),
               textAlign: TextAlign.center,
             ),
@@ -247,7 +249,7 @@ class _IntroView extends StatelessWidget {
           const SizedBox(height: 16),
           Center(
             child: best == null
-                ? Text(Strings.noRecord,
+                ? Text(l.noRecord,
                     style: const TextStyle(
                         fontFamily: 'Jua',
                         fontSize: 14,
@@ -263,7 +265,7 @@ class _IntroView extends StatelessWidget {
                             size: 16, color: definition.accent),
                         const SizedBox(width: 6),
                         Text(
-                          '${Strings.bestPrefix} ${definition.formatScore(best!)}',
+                          '${l.bestPrefix} ${definition.formatScore(l, best!)}',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
@@ -276,7 +278,7 @@ class _IntroView extends StatelessWidget {
           ),
           const Spacer(),
           ChunkyButton(
-            label: Strings.start,
+            label: l.start,
             color: AppColors.success,
             height: 58,
             onPressed: onStart,

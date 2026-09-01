@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../app/l10n_context.dart';
+
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
@@ -75,7 +77,9 @@ class _TapSpeedPlayState extends State<TapSpeedPlay> {
             ),
             const SizedBox(height: 24),
             Text(
-              _stopwatch.isRunning ? '계속 탭하세요!' : '탭하는 순간 시작!',
+              _stopwatch.isRunning
+              ? context.l.tapSpeedKeepTapping
+              : context.l.tapSpeedStartCue,
               style: textTheme.bodyMedium,
             ),
           ],

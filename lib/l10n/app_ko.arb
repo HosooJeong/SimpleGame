@@ -1,0 +1,238 @@
+{
+  "@@locale": "ko",
+
+  "appName": "스낵게임",
+  "appTagline": "초간단 두뇌 미니게임 모음",
+  "homeTagline": "네 한계를 증명해봐",
+
+  "start": "도전 시작",
+  "retry": "한 번 더",
+  "share": "자랑하기",
+  "home": "홈으로",
+  "newRecord": "신기록!",
+  "bestPrefix": "BEST",
+  "noRecord": "아직 아무도 도전하지 않았다",
+  "aborted": "게임이 중단됐어요",
+  "countdownGo": "시작!",
+
+  "stats": "기록",
+  "settings": "설정",
+  "sound": "효과음",
+  "haptics": "진동",
+  "resetRecords": "기록 전체 초기화",
+  "resetConfirmTitle": "기록을 모두 지울까요?",
+  "resetConfirmBody": "모든 게임의 최고 기록과 통계가 삭제됩니다. 되돌릴 수 없어요.",
+  "cancel": "취소",
+  "delete": "삭제",
+  "resetDone": "기록이 초기화됐어요",
+  "copiedFallback": "이 환경에선 공유 대신 내용을 복사했어요",
+  "shareApp": "친구에게 앱 공유하기",
+  "shareAppBody": "심심할 때 딱 좋은 두뇌 미니게임 모음.\n반응속도부터 기억력까지 테스트해봐.",
+  "noStatsYet": "아직 기록이 없어요",
+  "playsCount": "{count, plural, other{{count}회 플레이}}",
+  "@playsCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "roundProgress": "라운드 {round} / {total}",
+  "@roundProgress": {
+    "placeholders": { "round": { "type": "int" }, "total": { "type": "int" } }
+  },
+  "roundProgressScore": "라운드 {round} / {total}  ·  {score}점",
+  "@roundProgressScore": {
+    "placeholders": {
+      "round": { "type": "int" },
+      "total": { "type": "int" },
+      "score": { "type": "int" }
+    }
+  },
+  "pointsGained": "{points}점!",
+  "@pointsGained": {
+    "placeholders": { "points": { "type": "int" } }
+  },
+
+  "colorRed": "빨강",
+  "colorBlue": "파랑",
+  "colorGreen": "초록",
+  "colorYellow": "노랑",
+  "colorPurple": "보라",
+
+  "reactionTitle": "반응속도",
+  "reactionHowTo": "빨간 화면이 초록색으로 바뀌는 순간\n최대한 빨리 터치하세요.\n5회 평균으로 기록됩니다.\n초록색 전에 터치하면 그 라운드는 다시!",
+  "reactionShare": "반응속도 평균 {ms}ms 찍었다.\n나보다 빠르면 인정.",
+  "@reactionShare": {
+    "placeholders": { "ms": { "type": "String" } }
+  },
+  "reactionWaitCue": "초록색이 되면\n바로 터치!",
+  "reactionGoCue": "지금 터치!",
+  "reactionTooEarly": "너무 빨라요\n초록색을 기다리세요",
+
+  "numberGridTitle": "숫자 순서",
+  "numberGridHowTo": "흩어져 있는 1부터 25까지의 숫자를\n순서대로 최대한 빨리 터치하세요!",
+  "numberGridScore": "{seconds}초",
+  "@numberGridScore": {
+    "placeholders": { "seconds": { "type": "String" } }
+  },
+  "numberGridShare": "1부터 25까지 {seconds}초 만에 클리어.\n더 빨리 할 수 있겠어?",
+  "@numberGridShare": {
+    "placeholders": { "seconds": { "type": "String" } }
+  },
+  "numberGridNext": "다음: {number}",
+  "@numberGridNext": {
+    "placeholders": { "number": { "type": "int" } }
+  },
+
+  "tapSpeedTitle": "탭 스피드",
+  "tapSpeedHowTo": "첫 터치와 동시에 10초 타이머가 시작됩니다.\n10초 동안 화면을 최대한 많이 탭하세요!",
+  "tapSpeedScore": "{count}회",
+  "@tapSpeedScore": {
+    "placeholders": { "count": { "type": "String" } }
+  },
+  "tapSpeedShare": "10초 동안 {count}번 탭했다.\n손가락 스피드로 이겨볼 사람?",
+  "@tapSpeedShare": {
+    "placeholders": { "count": { "type": "String" } }
+  },
+  "tapSpeedKeepTapping": "계속 탭하세요!",
+  "tapSpeedStartCue": "탭하는 순간 시작!",
+
+  "timingBarTitle": "타이밍 스톱",
+  "timingBarHowTo": "좌우로 움직이는 원이 정중앙에 왔을 때\n화면을 터치해 멈추세요.\n총 5라운드, 라운드마다 빨라집니다!\n(라운드당 100점, 500점 만점)",
+  "timingBarShare": "타이밍 스톱 {score}점 (500점 만점).\n타이밍 감각 자신 있으면 도전.",
+  "@timingBarShare": {
+    "placeholders": { "score": { "type": "String" } }
+  },
+  "timingBarCue": "정중앙에서 터치!",
+
+  "memoryTitle": "순서 기억",
+  "memoryHowTo": "상하좌우 버튼이 순서대로 반짝입니다.\n순서를 기억했다가 그대로 따라 누르세요.\n성공할 때마다 한 칸씩 길어집니다!",
+  "memoryShare": "순서 기억 {level}단계까지 성공.\n네 기억력은 몇 단계?",
+  "@memoryShare": {
+    "placeholders": { "level": { "type": "String" } }
+  },
+  "memoryWatch": "잘 보세요...",
+  "memoryRepeat": "따라 누르세요!",
+  "memoryWrong": "틀렸어요! 정답은 초록색",
+
+  "timerTenTitle": "정확한 10초",
+  "timerTenHowTo": "타이머가 3초까지만 보이고 그 뒤엔 가려집니다.\n감각만으로 정확히 10.00초가 되는 순간\n화면을 터치하세요!",
+  "timerTenScore": "±{seconds}초",
+  "@timerTenScore": {
+    "placeholders": { "seconds": { "type": "String" } }
+  },
+  "timerTenShare": "눈 감고 10초 맞추기, 오차 ±{seconds}초.\n네 시간 감각도 테스트해봐.",
+  "@timerTenShare": {
+    "placeholders": { "seconds": { "type": "String" } }
+  },
+  "timerTenSeconds": "{seconds}초",
+  "@timerTenSeconds": {
+    "placeholders": { "seconds": { "type": "String" } }
+  },
+  "timerTenTarget": "목표: 10.00초",
+  "timerTenHiding": "곧 가려집니다...",
+  "timerTenCue": "감각으로 10.00초에 터치!",
+
+  "oddTileTitle": "다른 색 찾기",
+  "oddTileHowTo": "색이 미묘하게 다른 한 칸을 터치하세요.\n단계가 오를수록 어려워집니다.\n제한시간 30초, 틀리면 2초 감소!",
+  "oddTileShare": "다른 색 찾기 {level}단계 클리어.\n눈썰미 좋으면 도전해봐.",
+  "@oddTileShare": {
+    "placeholders": { "level": { "type": "String" } }
+  },
+  "oddTileTimeUp": "시간 종료! 정답은 여기",
+
+  "stroopTitle": "색깔 함정",
+  "stroopHowTo": "단어의 뜻과 글자 색이 일치하면 O,\n다르면 X를 누르세요.\n30초 동안 최대한 많이! (오답은 -1점)",
+  "stroopShare": "색깔 함정 테스트 {score}점.\n네 뇌는 안 속을 자신 있어?",
+  "@stroopShare": {
+    "placeholders": { "score": { "type": "String" } }
+  },
+  "stroopMatch": "일치",
+  "stroopMismatch": "불일치",
+
+  "chimpTitle": "순간 기억",
+  "chimpHowTo": "숫자들의 위치를 기억하세요.\n1을 누르는 순간 나머지가 가려집니다.\n순서대로 끝까지 누르면 숫자가 하나 늘어요.\n(침팬지는 평균 9개까지 외운다고 합니다)",
+  "chimpShare": "순간 기억력 {count}개.\n침팬지는 평균 9개 외운다는데, 너는?",
+  "@chimpShare": {
+    "placeholders": { "count": { "type": "String" } }
+  },
+  "chimpMemorize": "위치를 기억하세요",
+  "chimpTapInOrder": "순서대로 터치!",
+  "chimpWrong": "틀렸어요! 다음은 {number}이었어요",
+  "@chimpWrong": {
+    "placeholders": { "number": { "type": "int" } }
+  },
+
+  "halfCutTitle": "반반 자르기",
+  "halfCutHowTo": "절단선을 드래그로 움직여서\n양쪽 넓이가 똑같아지는 지점에 놓으세요.\n손을 떼는 순간 확정! 총 5라운드, 새 도형!\n(라운드당 100점, 500점 만점)",
+  "halfCutShare": "반반 자르기 {score}점 (500점 만점).\n네 눈대중은 몇 점짜리야?",
+  "@halfCutShare": {
+    "placeholders": { "score": { "type": "String" } }
+  },
+  "halfCutGrabCue": "도형을 눌러 절단선을 잡으세요",
+  "halfCutDragCue": "드래그로 옮기고, 놓으면 확정!",
+
+  "circleDrawTitle": "완벽한 원",
+  "circleDrawHowTo": "한 획으로 최대한 완벽한 원을 그리세요.\n손을 떼는 순간 원형도를 채점합니다.\n너무 작거나 덜 이어진 원은 무효!",
+  "circleDrawShare": "손으로 원형도 {percent}% 원을 그렸다.\n한 획에 이만큼 그릴 수 있어?",
+  "@circleDrawShare": {
+    "placeholders": { "percent": { "type": "String" } }
+  },
+  "circleDrawCue": "한 획으로 완벽한 원을!",
+  "circleDrawKeepGoing": "더 크게, 끝까지 이어서 그리세요",
+  "circleDrawTooSmall": "너무 작아요! 크게 그리세요",
+  "circleDrawNotClosed": "원이 닫히지 않았어요! 한 바퀴를 이으세요",
+
+  "shuffleTrackTitle": "셔플 추적",
+  "shuffleTrackHowTo": "별이 든 타일을 눈으로 끝까지 쫓으세요.\n섞기가 끝나면 별이 있는 타일을 터치!\n단계가 오를수록 더 빠르게, 더 많이 섞여요.",
+  "shuffleTrackShare": "셔플 추적 {level}단계까지 쫓아냈다.\n눈 빠르면 따라와봐.",
+  "@shuffleTrackShare": {
+    "placeholders": { "level": { "type": "String" } }
+  },
+  "shuffleTrackMemorize": "별을 기억하세요",
+  "shuffleTrackFollow": "눈으로 쫓으세요!",
+  "shuffleTrackWhere": "별은 어디에?",
+  "shuffleTrackCorrect": "정확해요!",
+  "shuffleTrackWrong": "아깝다! 별은 여기 있었어요",
+
+  "flashCountTitle": "순간 셈",
+  "flashCountHowTo": "점들이 아주 잠깐 나타났다 사라집니다.\n몇 개였는지 맞히세요.\n단계가 오를수록 많아지고, 더 짧게 보여요!",
+  "flashCountShare": "순간 셈 {level}단계 통과.\n반의 반 초 만에 몇 개까지 세겠어?",
+  "@flashCountShare": {
+    "placeholders": { "level": { "type": "String" } }
+  },
+  "flashCountPrompt": "몇 개?!",
+  "flashCountAsk": "몇 개였을까요?",
+  "flashCountCorrect": "정답!",
+  "flashCountWrong": "틀렸어요! 정답은 {count}개",
+  "@flashCountWrong": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "fakeSignalTitle": "가짜 신호",
+  "fakeSignalHowTo": "초록 신호가 켜지면 흰 게이지가\n다 닳기 전에 터치!\n빨간 가짜 신호에는 절대 손대지 마세요.\n갈수록 빨라지고, 한 번 실수하면 끝!",
+  "fakeSignalShare": "가짜 신호 {count}개 연속 통과.\n낚이지 않을 자신 있으면 와.",
+  "@fakeSignalShare": {
+    "placeholders": { "count": { "type": "String" } }
+  },
+  "fakeSignalWait": "기다리세요...",
+  "fakeSignalHold": "참아!",
+  "fakeSignalTap": "터치!",
+  "fakeSignalMissed": "신호를 놓쳤어요!",
+  "fakeSignalTooSoon": "신호가 없을 때 터치했어요!",
+  "fakeSignalBaited": "가짜 신호에 낚였어요!",
+
+  "countLevel": "{level}단계",
+  "@countLevel": {
+    "placeholders": { "level": { "type": "String" } }
+  },
+  "countItems": "{count}개",
+  "@countItems": {
+    "placeholders": { "count": { "type": "String" } }
+  },
+  "countPoints": "{score}점",
+  "@countPoints": {
+    "placeholders": { "score": { "type": "String" } }
+  },
+  "countSeconds": "{seconds}초",
+  "@countSeconds": {
+    "placeholders": { "seconds": { "type": "String" } }
+  }
+}
