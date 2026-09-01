@@ -8,6 +8,44 @@ import '../../app/l10n_context.dart';
 import '../../app/theme.dart';
 import '../shell/game_session.dart';
 
+/// 실루엣 높이로부터 누적 넓이를 만든다. `prefix[i]`는 0번 샘플부터 i번 샘플까지의
+/// 넓이(가로 간격은 1로 두고 잰 값 — 비율만 쓰므로 단위는 상관없다).
+///
+/// 화면에 그려지는 도형은 샘플 점들을 직선으로 이은 폴리곤(_ShapePainter)이므로
+/// 사다리꼴로 재야 채점이 눈에 보이는 그림과 일치한다. 단순 누적합(직사각형)으로
+/// 재면 정확히 반을 잘라도 만점이 나오지 않는다.
+List<double> buildPrefixArea(List<double> heights) {
+  final prefix = List.filled(heights.length, 0.0);
+  var acc = 0.0;
+  for (var i = 1; i < heights.length; i++) {
+    acc += (heights[i - 1] + heights[i]) / 2;
+    prefix[i] = acc;
+  }
+  return prefix;
+}
+
+/// 절단선 [cutX](0~1) 왼쪽 넓이가 전체에서 차지하는 비율.
+///
+/// 샘플 사이도 보간해서 잰다. 가장 가까운 샘플로 반올림하면 손가락 위치가
+/// 160칸으로 뭉개져, 최적으로 잘라도 만점이 나오지 않는다.
+double areaRatioAt(
+    List<double> heights, List<double> prefixArea, double cutX) {
+  final last = heights.length - 1;
+  final pos = cutX.clamp(0.0, 1.0) * last;
+  final i = pos.floor().clamp(0, last - 1);
+  final f = (pos - i).clamp(0.0, 1.0);
+  final heightAtCut = heights[i] + (heights[i + 1] - heights[i]) * f;
+  final area = prefixArea[i] + f * (heights[i] + heightAtCut) / 2;
+  return area / prefixArea[last];
+}
+
+/// 넓이 비율을 0~100점으로. 정확히 반(0.5)이면 100점, 끝까지 치우치면 0점.
+int scoreForRatio(double ratio) {
+  final error = (ratio - 0.5).abs(); // 0(완벽) ~ 0.5(끝)
+  final closeness = (1 - error / 0.5).clamp(0.0, 1.0);
+  return (closeness * closeness * 100).round();
+}
+
 class HalfCutPlay extends StatefulWidget {
   const HalfCutPlay({super.key, required this.session});
 
@@ -64,12 +102,7 @@ class _HalfCutPlayState extends State<HalfCutPlay> {
       return h.clamp(0.12, 1.0);
     });
 
-    _prefixArea = List.filled(samples, 0);
-    var acc = 0.0;
-    for (var i = 0; i < samples; i++) {
-      acc += _heights[i];
-      _prefixArea[i] = acc;
-    }
+    _prefixArea = buildPrefixArea(_heights);
   }
 
   /// 드래그 중 절단선 위치 갱신 (아직 채점 안 함).
@@ -81,12 +114,7 @@ class _HalfCutPlayState extends State<HalfCutPlay> {
   /// 드래그를 놓으면 절단선 고정 + 채점.
   void _lockCut() {
     if (_roundPoints != null || _cutX == null) return;
-    final index =
-        (_cutX! * (samples - 1)).round().clamp(0, samples - 1);
-    final ratio = _prefixArea[index] / _prefixArea[samples - 1];
-    final error = (ratio - 0.5).abs(); // 0(완벽) ~ 0.5(끝)
-    final closeness = (1 - error / 0.5).clamp(0.0, 1.0);
-    final points = (closeness * closeness * 100).round();
+    final points = scoreForRatio(areaRatioAt(_heights, _prefixArea, _cutX!));
     _total += points;
     points >= 90 ? widget.session.fx.success() : widget.session.fx.tap();
     setState(() => _roundPoints = points);
