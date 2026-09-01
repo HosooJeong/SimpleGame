@@ -39,6 +39,22 @@ def chars_in_sources(repo_root):
     return {ch for ch in chars if ch.isprintable() and not ch.isspace()}
 
 
+def freeze_timestamps(font):
+    """head 테이블의 수정 시각을 고정한다.
+
+    fontTools 는 저장할 때 현재 시각을 적기 때문에, 같은 입력으로 서브셋해도
+    결과 바이트가 매번 달라진다. 서비스워커의 자산 캐시 키를 산출물 해시로
+    잡고 있어서 그대로 두면 배포마다 캐시가 무효화돼 분리한 의미가 없어진다.
+
+    필드를 지우는 것만으로는 부족하다. recalcTimestamp 가 켜져 있으면 compile
+    시점에 현재 시각으로 다시 덮어쓴다.
+    """
+    font.recalcTimestamp = False
+    if 'head' in font:
+        font['head'].created = 0
+        font['head'].modified = 0
+
+
 def coverage(path):
     font = TTFont(path)
     covered = set()
@@ -84,6 +100,7 @@ def main():
         subsetter = subset.Subsetter(options=options)
         subsetter.populate(text=text)
         subsetter.subset(font)
+        freeze_timestamps(font)
         font.save(path)
         font.close()
 
