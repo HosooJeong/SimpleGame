@@ -38,7 +38,7 @@ jobs:
             echo "치환 실패: sw.js에 플레이스홀더가 남아있음"
             exit 1
           fi
-          grep -o "snackgame-[0-9a-f]\{40\}" build/web/sw.js
+          grep -o "const VERSION = '[0-9a-f]\{40\}'" build/web/sw.js
 
       - uses: actions/upload-pages-artifact@v3
         with:
