@@ -100,8 +100,9 @@ class _GameShellScreenState extends State<GameShellScreen> {
 
   Future<void> _share() async {
     if (_score == null) return;
-    final shared =
-        await AppScope.of(context).share.shareScore(_def.shareBody(_score!));
+    final shared = await AppScope.of(context)
+        .share
+        .shareScore(_def.shareBody(_score!), gameId: _def.id);
     if (!shared && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text(Strings.copiedFallback)),

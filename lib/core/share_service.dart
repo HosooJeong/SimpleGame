@@ -10,14 +10,18 @@ class ShareService {
   /// Play 출시 후에도 이 URL은 유지하고, 설치 유도는 웹 페이지에서 한다.
   static const shareUrl = 'https://hosoojeong.github.io/SimpleGame/';
 
+  /// 자랑한 게임으로 바로 들어가는 링크. 홈이 아니라 그 게임 화면이 열린다.
+  static String gameUrl(String gameId) => '$shareUrl?game=$gameId';
+
   /// [body]는 게임별 자랑 문구(GameDefinition.shareBody) — 플레이 링크를 붙여 공유.
   /// 반환값이 false면 공유 시트를 못 열어 클립보드 복사로 대체된 것.
-  Future<bool> shareScore(String body) => _share(body);
+  Future<bool> shareScore(String body, {required String gameId}) =>
+      _share(body, url: gameUrl(gameId));
 
-  Future<bool> shareApp() => _share(Strings.shareAppBody);
+  Future<bool> shareApp() => _share(Strings.shareAppBody, url: shareUrl);
 
-  Future<bool> _share(String body) async {
-    final text = '$body\n\n${Strings.appName} – ${Strings.appTagline}\n$shareUrl';
+  Future<bool> _share(String body, {required String url}) async {
+    final text = '$body\n\n${Strings.appName} – ${Strings.appTagline}\n$url';
     try {
       await SharePlus.instance.share(ShareParams(text: text));
       return true;

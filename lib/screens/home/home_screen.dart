@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/app_scope.dart';
@@ -18,6 +19,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // 공유 링크(?game=<id>)로 들어왔으면 홈 위에 그 게임을 바로 띄운다.
+    // 닫으면 홈이 남으므로 다른 게임으로도 이어진다.
+    final game = kIsWeb ? gameFromUri(Uri.base) : null;
+    if (game == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _open(GameShellScreen(definition: game));
+    });
+  }
+
   Future<void> _open(Widget screen) async {
     await Navigator.push(
         context, MaterialPageRoute<void>(builder: (_) => screen));

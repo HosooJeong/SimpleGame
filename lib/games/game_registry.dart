@@ -31,3 +31,14 @@ final allGames = <GameDefinition>[
   flashCountGame,
   fakeSignalGame,
 ];
+
+/// 공유 링크(`?game=<id>`)로 들어온 경우 해당 게임을 돌려준다.
+/// 파라미터가 없거나 모르는 id면 null — 호출부는 홈을 그대로 보여주면 된다.
+GameDefinition? gameFromUri(Uri uri) {
+  final id = uri.queryParameters['game'];
+  if (id == null) return null;
+  for (final game in allGames) {
+    if (game.id == id) return game;
+  }
+  return null;
+}
