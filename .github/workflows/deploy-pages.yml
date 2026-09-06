@@ -28,7 +28,11 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter build web --release --base-href /SimpleGame/
+      # --wasm: WasmGC를 지원하는 브라우저는 dart2wasm+skwasm으로, 나머지는
+      # 함께 만들어지는 dart2js+canvaskit 빌드로 자동 폴백한다.
+      # GitHub Pages는 COOP/COEP 헤더를 못 넣어 crossOriginIsolated가 false이므로
+      # 멀티스레드(skwasm_heavy)가 아니라 단일 스레드 skwasm이 선택된다.
+      - run: flutter build web --release --wasm --base-href /SimpleGame/
 
       # 폰트를 소스가 실제로 쓰는 글자만 남기고 줄인다(약 6MB -> 0.7MB).
       # 원본은 assets/fonts/ 에 그대로 두고 빌드 산출물만 깎는다.
