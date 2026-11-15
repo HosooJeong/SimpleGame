@@ -15,11 +15,23 @@ const CURRENT = [APP_CACHE, ASSET_CACHE];
 // skipWaiting/clients.claim 은 일부러 쓰지 않는다. 열려 있는 탭이 이전 워커와 이전
 // 캐시를 그대로 유지해야 한 페이지 안에서 서로 다른 빌드의 파일이 섞이지 않는다.
 // 새 배포는 탭을 모두 닫은 뒤 다음 방문에 적용된다.
+// 워커 설치 시 해당 배포의 문서를 확보해 기존 워커와 새 문서가 섞이지 않게 한다.
+self.addEventListener('install', (event) => {
+  event.waitUntil((async () => {
+    const cache = await caches.open(APP_CACHE);
+    const url = new URL(self.registration.scope).href;
+    const response = await fetch(url, {cache: 'reload'});
+    if (!response.ok) throw new Error('Unable to cache app document');
+    await cache.put(url, response);
+  })());
+});
+
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
     await Promise.all(
-      keys.filter((key) => !CURRENT.includes(key)).map((key) => caches.delete(key)),
+      keys.filter((key) => (key.startsWith('snackgame-app-') || key.startsWith('snackgame-assets-')) && !CURRENT.includes(key))
+          .map((key) => caches.delete(key)),
     );
   })());
 });
@@ -33,7 +45,7 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     request.mode === 'navigate'
-        ? networkFirst(request, APP_CACHE)
+        ? appDocument(request)
         : cacheFirst(request, cacheNameFor(url)),
   );
 });
@@ -57,18 +69,16 @@ async function cacheFirst(request, cacheName) {
   return response;
 }
 
-// 문서 요청: 새 배포를 우선 반영하되, 오프라인이면 캐시로 폴백한다.
-async function networkFirst(request, cacheName) {
-  const cache = await caches.open(cacheName);
-  try {
-    const response = await fetch(request);
-    store(cache, request, response);
-    return response;
-  } catch (error) {
-    const cached = await cache.match(request);
-    if (cached) return cached;
-    throw error;
-  }
+// 같은 앱의 공유 링크는 쿼리와 관계없이 동일한 문서를 사용한다.
+// 기존 워커가 제어하는 동안 캐시된 문서를 우선해 코드 버전을 맞춘다.
+async function appDocument(request) {
+  const cache = await caches.open(APP_CACHE);
+  const documentUrl = new URL(self.registration.scope).href;
+  const cached = await cache.match(documentUrl);
+  if (cached) return cached;
+  const response = await fetch(request);
+  store(cache, documentUrl, response);
+  return response;
 }
 
 // caches.match() 는 이전 버전 캐시까지 뒤지므로 쓰지 않는다 — 빌드가 섞인다.

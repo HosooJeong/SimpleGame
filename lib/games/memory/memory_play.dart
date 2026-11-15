@@ -75,6 +75,7 @@ class _MemoryPlayState extends State<MemoryPlay> {
 
   void _onDirTap(int dir) {
     if (_phase != _MemPhase.input) return;
+    _timer?.cancel();
 
     if (dir == _sequence[_inputPos]) {
       setState(() => _lit = dir);
@@ -96,8 +97,10 @@ class _MemoryPlayState extends State<MemoryPlay> {
         _wrongDir = dir;
         _lit = _sequence[_inputPos];
       });
-      _timer = Timer(const Duration(milliseconds: 1400),
-          () => widget.session.finish(_sequence.length - 1));
+      _timer = Timer(
+        const Duration(milliseconds: 1400),
+        () => widget.session.finish(_sequence.length - 1),
+      );
     }
   }
 
@@ -114,12 +117,11 @@ class _MemoryPlayState extends State<MemoryPlay> {
     return Column(
       children: [
         const SizedBox(height: 24),
-        Text(context.l.countLevel('${_sequence.length}'),
-              style: textTheme.displaySmall),
-        SizedBox(
-          height: 28,
-          child: Text(hint, style: textTheme.bodyMedium),
+        Text(
+          context.l.countLevel('${_sequence.length}'),
+          style: textTheme.displaySmall,
         ),
+        SizedBox(height: 28, child: Text(hint, style: textTheme.bodyMedium)),
         Expanded(
           child: Center(
             child: SizedBox(
@@ -127,10 +129,7 @@ class _MemoryPlayState extends State<MemoryPlay> {
               height: 280,
               child: Stack(
                 children: [
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: _buildButton(0),
-                  ),
+                  Align(alignment: Alignment.topCenter, child: _buildButton(0)),
                   Align(
                     alignment: Alignment.centerRight,
                     child: _buildButton(1),
@@ -159,8 +158,8 @@ class _MemoryPlayState extends State<MemoryPlay> {
     final color = wrong
         ? AppColors.danger
         : lit
-            ? accent
-            : AppColors.surface;
+        ? accent
+        : AppColors.surface;
     return GestureDetector(
       onTapDown: (_) => _onDirTap(dir),
       child: AnimatedContainer(
@@ -171,7 +170,8 @@ class _MemoryPlayState extends State<MemoryPlay> {
           color: color,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
-              color: color == AppColors.surface ? AppColors.border : color),
+            color: color == AppColors.surface ? AppColors.border : color,
+          ),
           boxShadow: color == AppColors.surface ? kCardShadow : null,
         ),
         child: Icon(
