@@ -23,7 +23,11 @@ jobs:
         with:
           python-version: '3.12'
       - name: Check scoring
-        run: node experiments/canvas-full/scoring.test.cjs
+        run: |
+          node --check experiments/canvas-full/app.js
+          node --check experiments/canvas-full/sw.js
+          node experiments/canvas-full/scoring.test.cjs
+          node experiments/canvas-full/service_worker.test.cjs
       - name: Install font subsetter
         run: python -m pip install fonttools==4.58.5
       - name: Build Canvas site
