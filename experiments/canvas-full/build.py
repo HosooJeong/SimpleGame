@@ -1,5 +1,6 @@
 """Build a self-contained GitHub Pages artifact without changing source assets."""
 import argparse
+import json
 from pathlib import Path
 import re
 import shutil
@@ -24,6 +25,13 @@ site_files = ("index.html", "style.css", "i18n.js", "scoring.js", "app.js",
               "games_more.js", "games_fidelity.js", "manifest.json")
 for name in site_files:
     shutil.copy2(site / name, output / name)
+version_script = (site / "version.js").read_text(encoding="utf-8")
+if version_script.count("__BUILD_VERSION__") != 1:
+    raise SystemExit("Expected exactly one client version placeholder")
+(output / "version.js").write_text(version_script.replace("__BUILD_VERSION__", args.version),
+                                   encoding="utf-8", newline="\n")
+(output / "version.json").write_text(json.dumps({"version": args.version}) + "\n",
+                                     encoding="utf-8", newline="\n")
 worker = (site / "sw.js").read_text(encoding="utf-8")
 if worker.count("__BUILD_VERSION__") != 1:
     raise SystemExit("Expected exactly one service-worker version placeholder")
