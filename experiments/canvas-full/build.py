@@ -22,7 +22,8 @@ if output.exists() and any(output.iterdir()):
 output.mkdir(parents=True, exist_ok=True)
 site_files = ("index.html", "style.css", "i18n.js", "scoring.js", "app.js",
               "previews.js", "games_basic.js", "games_memory.js", "games_draw.js",
-              "games_more.js", "games_fidelity.js", "manifest.json")
+              "games_more.js", "games_fidelity.js", "manifest.json",
+              "MATERIAL_ICONS_LICENSE.txt")
 for name in site_files:
     shutil.copy2(site / name, output / name)
 version_script = (site / "version.js").read_text(encoding="utf-8")
