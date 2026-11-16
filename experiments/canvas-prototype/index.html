@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff4de">
+  <title>스낵게임 Canvas 비교판</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main id="app">
+    <section id="home" class="screen">
+      <header class="home-header">
+        <div><h1>스낵게임</h1><p>네 한계를 증명해봐</p></div>
+      </header>
+      <p class="notice">비교판 · 타이밍 스톱만 플레이할 수 있어</p>
+      <div id="grid" class="grid"></div>
+    </section>
+    <section id="intro" class="screen full" hidden>
+      <button class="back" aria-label="홈으로">‹</button>
+      <div class="intro-center">
+        <div class="game-icon">⊙</div>
+        <h2>타이밍 스톱</h2>
+        <div class="instruction">좌우로 움직이는 원이 정중앙에 왔을 때<br>화면을 터치해 멈추세요.<br>총 5라운드, 라운드마다 빨라집니다!<br>(라운드당 100점, 500점 만점)</div>
+        <p id="intro-best" class="muted"></p>
+      </div>
+      <button id="start" class="big-button">도전 시작</button>
+    </section>
+    <section id="countdown" class="screen full center" hidden><div id="count-value">3</div></section>
+    <section id="play" class="screen full" hidden>
+      <button class="back" aria-label="게임 중단">‹</button>
+      <p id="round-label" class="round-label"></p>
+      <div class="game-center">
+        <canvas id="game-canvas" aria-label="좌우로 움직이는 공"></canvas>
+        <p id="game-message">정중앙에서 터치!</p>
+      </div>
+      <button id="tap-area" aria-label="공 멈추기"></button>
+    </section>
+    <section id="result" class="screen full" hidden>
+      <div class="result-center">
+        <div class="result-card"><p>타이밍 스톱</p><strong id="score"></strong><p id="best"></p></div>
+      </div>
+      <div class="result-actions"><button id="retry" class="big-button">한 번 더</button><button id="home-button">홈으로</button></div>
+    </section>
+  </main>
+</body>
+</html>

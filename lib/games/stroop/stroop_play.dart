@@ -23,12 +23,12 @@ class _StroopPlayState extends State<StroopPlay> {
 
   /// 색 이름은 언어마다 다르므로 표시 시점에 꺼낸다. _inks 와 순서가 같아야 한다.
   static List<String> _wordsOf(BuildContext context) => [
-        context.l.colorRed,
-        context.l.colorBlue,
-        context.l.colorGreen,
-        context.l.colorYellow,
-        context.l.colorPurple,
-      ];
+    context.l.colorRed,
+    context.l.colorBlue,
+    context.l.colorGreen,
+    context.l.colorYellow,
+    context.l.colorPurple,
+  ];
   static const _inks = [
     GameColors.red,
     GameColors.blue,
@@ -38,6 +38,7 @@ class _StroopPlayState extends State<StroopPlay> {
   ];
 
   final _random = Random();
+  final _clock = Stopwatch();
   Timer? _ticker;
   Timer? _flashTimer;
   int _timeLeftMs = totalMs;
@@ -51,8 +52,11 @@ class _StroopPlayState extends State<StroopPlay> {
   void initState() {
     super.initState();
     _nextProblem();
+    _clock.start();
     _ticker = Timer.periodic(const Duration(milliseconds: 100), (_) {
-      setState(() => _timeLeftMs -= 100);
+      setState(
+        () => _timeLeftMs = max(0, totalMs - _clock.elapsedMilliseconds),
+      );
       if (_timeLeftMs <= 0) _finish();
     });
   }
@@ -76,12 +80,15 @@ class _StroopPlayState extends State<StroopPlay> {
     // 절반 확률로 뜻과 색을 일치시킨다.
     _inkIndex = _random.nextBool()
         ? _wordIndex
-        : (_wordIndex + 1 + _random.nextInt(_inks.length - 1)) %
-            _inks.length;
+        : (_wordIndex + 1 + _random.nextInt(_inks.length - 1)) % _inks.length;
   }
 
   void _answer(bool saidMatch) {
     if (_finished) return;
+    if (_clock.elapsedMilliseconds >= totalMs) {
+      _finish();
+      return;
+    }
     final isMatch = _wordIndex == _inkIndex;
     if (saidMatch == isMatch) {
       widget.session.fx.tapLight();
@@ -105,8 +112,7 @@ class _StroopPlayState extends State<StroopPlay> {
     final timeRatio = (_timeLeftMs / totalMs).clamp(0.0, 1.0);
     final urgent = _timeLeftMs < 5000;
     // 크림 배경에서 노랑 잉크는 살짝 어둡게 보정.
-    final ink =
-        _inkIndex == 3 ? darken(_inks[3], 0.14) : _inks[_inkIndex];
+    final ink = _inkIndex == 3 ? darken(_inks[3], 0.14) : _inks[_inkIndex];
 
     return Padding(
       padding: const EdgeInsets.all(20),

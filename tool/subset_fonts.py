@@ -42,6 +42,12 @@ def chars_in_sources(repo_root):
     for pattern in ('*.dart', '*.arb'):
         for path in sorted(lib.rglob(pattern)):
             chars |= set(path.read_text(encoding='utf-8'))
+    # Canvas 웹의 표시 문구도 포함한다. 기존 Flutter 폰트 원본은 변경하지 않는다.
+    canvas = repo_root / 'experiments' / 'canvas-full'
+    if canvas.is_dir():
+        for pattern in ('*.js', '*.html'):
+            for path in sorted(canvas.rglob(pattern)):
+                chars |= set(path.read_text(encoding='utf-8'))
     return {ch for ch in chars if ch.isprintable() and not ch.isspace()}
 
 

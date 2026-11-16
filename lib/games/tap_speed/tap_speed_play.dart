@@ -32,6 +32,13 @@ class _TapSpeedPlayState extends State<TapSpeedPlay> {
 
   void _onPointerDown() {
     if (_finished) return;
+    if (_stopwatch.isRunning && _stopwatch.elapsedMilliseconds >= durationMs) {
+      _ticker?.cancel();
+      _stopwatch.stop();
+      setState(() => _finished = true);
+      widget.session.finish(_count);
+      return;
+    }
     if (!_stopwatch.isRunning) {
       _stopwatch.start();
       _ticker = Timer.periodic(const Duration(milliseconds: 50), (_) {
@@ -52,8 +59,8 @@ class _TapSpeedPlayState extends State<TapSpeedPlay> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final remaining =
-        ((durationMs - _stopwatch.elapsedMilliseconds) / 1000).clamp(0.0, 10.0);
+    final remaining = ((durationMs - _stopwatch.elapsedMilliseconds) / 1000)
+        .clamp(0.0, 10.0);
 
     return Listener(
       behavior: HitTestBehavior.opaque,
@@ -64,8 +71,7 @@ class _TapSpeedPlayState extends State<TapSpeedPlay> {
           children: [
             Text(
               remaining.toStringAsFixed(1),
-              style: textTheme.displaySmall!
-                  .copyWith(color: AppColors.textDim),
+              style: textTheme.displaySmall!.copyWith(color: AppColors.textDim),
             ),
             const SizedBox(height: 24),
             Text(
@@ -78,8 +84,8 @@ class _TapSpeedPlayState extends State<TapSpeedPlay> {
             const SizedBox(height: 24),
             Text(
               _stopwatch.isRunning
-              ? context.l.tapSpeedKeepTapping
-              : context.l.tapSpeedStartCue,
+                  ? context.l.tapSpeedKeepTapping
+                  : context.l.tapSpeedStartCue,
               style: textTheme.bodyMedium,
             ),
           ],

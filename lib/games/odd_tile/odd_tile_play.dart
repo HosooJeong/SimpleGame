@@ -23,9 +23,11 @@ class _OddTilePlayState extends State<OddTilePlay> {
   static const accent = GameColors.pink;
 
   final _random = Random();
+  final _clock = Stopwatch();
   Timer? _ticker;
   Timer? _answerTimer;
   int _timeLeftMs = totalMs;
+  int _penaltyMs = 0;
   int _level = 1;
   bool _finished = false;
   bool _showAnswer = false;
@@ -39,8 +41,14 @@ class _OddTilePlayState extends State<OddTilePlay> {
   void initState() {
     super.initState();
     _generateBoard();
+    _clock.start();
     _ticker = Timer.periodic(const Duration(milliseconds: 100), (_) {
-      setState(() => _timeLeftMs -= 100);
+      setState(
+        () => _timeLeftMs = max(
+          0,
+          totalMs - _clock.elapsedMilliseconds - _penaltyMs,
+        ),
+      );
       if (_timeLeftMs <= 0) _finish();
     });
   }
@@ -59,8 +67,10 @@ class _OddTilePlayState extends State<OddTilePlay> {
     // 시간 종료 안내 + 정답 타일을 잠시 보여준 뒤 결과 화면으로.
     widget.session.fx.fail();
     setState(() => _showAnswer = true);
-    _answerTimer = Timer(const Duration(milliseconds: 1300),
-        () => widget.session.finish(_level - 1));
+    _answerTimer = Timer(
+      const Duration(milliseconds: 1300),
+      () => widget.session.finish(_level - 1),
+    );
   }
 
   void _generateBoard() {
@@ -75,14 +85,17 @@ class _OddTilePlayState extends State<OddTilePlay> {
     final sign = _random.nextBool() ? 1 : -1;
     final oddLightness = (lightness + sign * delta).clamp(0.08, 0.92);
 
-    _baseColor =
-        HSLColor.fromAHSL(1, hue, saturation, lightness).toColor();
-    _oddColor =
-        HSLColor.fromAHSL(1, hue, saturation, oddLightness).toColor();
+    _baseColor = HSLColor.fromAHSL(1, hue, saturation, lightness).toColor();
+    _oddColor = HSLColor.fromAHSL(1, hue, saturation, oddLightness).toColor();
   }
 
   void _onCellTap(int index) {
     if (_finished) return;
+    _timeLeftMs = max(0, totalMs - _clock.elapsedMilliseconds - _penaltyMs);
+    if (_timeLeftMs <= 0) {
+      _finish();
+      return;
+    }
     if (index == _oddIndex) {
       widget.session.fx.tapLight();
       setState(() {
@@ -91,7 +104,10 @@ class _OddTilePlayState extends State<OddTilePlay> {
       });
     } else {
       widget.session.fx.fail();
-      setState(() => _timeLeftMs = max(0, _timeLeftMs - wrongPenaltyMs));
+      setState(() {
+        _penaltyMs += wrongPenaltyMs;
+        _timeLeftMs = max(0, totalMs - _clock.elapsedMilliseconds - _penaltyMs);
+      });
       if (_timeLeftMs <= 0) _finish();
     }
   }
@@ -122,7 +138,9 @@ class _OddTilePlayState extends State<OddTilePlay> {
           Text(
             _showAnswer
                 ? context.l.oddTileTimeUp
-                : context.l.countSeconds((_timeLeftMs / 1000).toStringAsFixed(1)),
+                : context.l.countSeconds(
+                    (_timeLeftMs / 1000).toStringAsFixed(1),
+                  ),
             style: _showAnswer
                 ? textTheme.bodyMedium!.copyWith(color: AppColors.danger)
                 : textTheme.bodySmall,
@@ -144,9 +162,8 @@ class _OddTilePlayState extends State<OddTilePlay> {
                         // 정답 공개 중엔 정답 타일만 또렷하게, 나머지는 흐리게.
                         color: (i == _oddIndex ? _oddColor : _baseColor)
                             .withValues(
-                                alpha: _showAnswer && i != _oddIndex
-                                    ? 0.3
-                                    : 1.0),
+                              alpha: _showAnswer && i != _oddIndex ? 0.3 : 1.0,
+                            ),
                         borderRadius: BorderRadius.circular(10),
                         border: _showAnswer && i == _oddIndex
                             ? Border.all(color: Colors.white, width: 4)
