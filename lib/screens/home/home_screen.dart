@@ -192,7 +192,7 @@ class _GameTileState extends State<_GameTile> {
             boxShadow: [
               BoxShadow(
                 color: game.accent.withValues(alpha: 0.35),
-                blurRadius: 10,
+                blurRadius: 0,
                 offset: const Offset(0, 5),
               ),
             ],

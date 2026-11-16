@@ -96,7 +96,7 @@ class _TimingBarPlayState extends State<TimingBarPlay>
                         height: 56,
                         child: AnimatedBuilder(
                           animation: _ctrl,
-                          builder: (context, _) => Stack(
+                          child: Stack(
                             alignment: Alignment.center,
                             children: [
                               // 트랙
@@ -117,6 +117,12 @@ class _TimingBarPlayState extends State<TimingBarPlay>
                                   borderRadius: BorderRadius.circular(2),
                                 ),
                               ),
+                            ],
+                          ),
+                          builder: (context, track) => Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              track!,
                               // 움직이는 원
                               Align(
                                 alignment:

@@ -21,6 +21,7 @@ class _NumberGridPlayState extends State<NumberGridPlay> {
 
   late final List<int> _numbers;
   final _stopwatch = Stopwatch();
+  final _elapsedMs = ValueNotifier<int>(0);
   Timer? _ticker;
   Timer? _flashTimer;
   int _next = 1;
@@ -31,14 +32,16 @@ class _NumberGridPlayState extends State<NumberGridPlay> {
     super.initState();
     _numbers = List.generate(size * size, (i) => i + 1)..shuffle();
     _stopwatch.start();
-    _ticker = Timer.periodic(
-        const Duration(milliseconds: 100), (_) => setState(() {}));
+    _ticker = Timer.periodic(const Duration(milliseconds: 100), (_) {
+      _elapsedMs.value = _stopwatch.elapsedMilliseconds;
+    });
   }
 
   @override
   void dispose() {
     _ticker?.cancel();
     _flashTimer?.cancel();
+    _elapsedMs.dispose();
     super.dispose();
   }
 
@@ -71,10 +74,12 @@ class _NumberGridPlayState extends State<NumberGridPlay> {
       child: Column(
         children: [
           const SizedBox(height: 8),
-          Text(
-            context.l.countSeconds(
-                (_stopwatch.elapsedMilliseconds / 1000).toStringAsFixed(1)),
-            style: textTheme.displaySmall,
+          ValueListenableBuilder<int>(
+            valueListenable: _elapsedMs,
+            builder: (context, elapsedMs, _) => Text(
+              context.l.countSeconds((elapsedMs / 1000).toStringAsFixed(1)),
+              style: textTheme.displaySmall,
+            ),
           ),
           Text(context.l.numberGridNext(_next), style: textTheme.bodySmall),
           const Spacer(),
