@@ -9,4 +9,24 @@ self.addEventListener("install", event => {
   }));
 });
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("snack-canvas-full-")&&k!==CACHE).map(k=>caches.delete(k))))));
+self.addEventListener("message", event => {
+  const port = event.ports?.[0];
+  if (!port) return;
+  if (event.data?.type === "GET_VERSION") {
+    port.postMessage({version:CACHE.slice("snack-canvas-full-".length)});
+    return;
+  }
+  if (event.data?.type !== "ACTIVATE_IF_SOLE_CLIENT") return;
+  event.waitUntil((async () => {
+    const windows = await self.clients.matchAll({type:"window", includeUncontrolled:true});
+    const scope = new URL(self.registration.scope);
+    const clients = windows.filter(client => {
+      const url = new URL(client.url);
+      return url.origin === scope.origin && url.pathname.startsWith(scope.pathname);
+    });
+    const accepted = clients.length === 1 && clients[0].id === event.source?.id;
+    port.postMessage({accepted});
+    if (accepted) await self.skipWaiting();
+  })());
+});
 self.addEventListener("fetch",event=>{if(event.request.method!=="GET"||new URL(event.request.url).origin!==location.origin)return;if(new URL(event.request.url).pathname===new URL("version.json",self.registration.scope).pathname){event.respondWith(fetch(event.request,{cache:"no-store"}));return;}event.respondWith((async()=>{const cache=await caches.open(CACHE);const key=event.request.mode==="navigate"?new URL("./",self.registration.scope).href:event.request;return await cache.match(key)||fetch(event.request);})());});

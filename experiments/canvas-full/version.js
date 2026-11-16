@@ -9,10 +9,10 @@ async function checkReleaseVersion(current, fetchVersion, onNewVersion) {
       return "unavailable";
     }
     if (version === current) return "current";
-    onNewVersion();
+    await onNewVersion(version);
     return "outdated";
   } catch (_) {
-    // Offline, unreachable, or invalid responses never block the game.
+    // Network failures and offline use never prevent the game from starting.
     return "unavailable";
   }
 }
@@ -22,6 +22,65 @@ if (typeof module !== "undefined" && module.exports) {
 }
 
 if (typeof window !== "undefined") {
+  const startedAt = performance.now();
+  let interacted = false;
+  for (const event of ["pointerdown", "keydown", "wheel", "touchstart"]) {
+    document.addEventListener(event, () => { interacted = true; },
+      {capture:true, passive:true, once:true});
+  }
+  const canApply = () => !interacted &&
+    document.visibilityState === "visible" &&
+    !document.querySelector(".play") &&
+    performance.now() - startedAt < 8000;
+
+  function askWorker(worker, type) {
+    return new Promise(resolve => {
+      const channel = new MessageChannel();
+      const timer = setTimeout(() => { channel.port1.close(); resolve(null); }, 1000);
+      channel.port1.onmessage = event => {
+        clearTimeout(timer);
+        channel.port1.close();
+        resolve(event.data);
+      };
+      try {
+        worker.postMessage({type}, [channel.port2]);
+      } catch (_) {
+        clearTimeout(timer);
+        channel.port1.close();
+        resolve(null);
+      }
+    });
+  }
+
+  async function applyWhenSafe(version) {
+    if (!("serviceWorker" in navigator)) return;
+    const registration = await navigator.serviceWorker.getRegistration();
+    if (!registration || !navigator.serviceWorker.controller) return;
+    try { await registration.update(); } catch (_) { return; }
+    // Keep the current page responsive while the browser prepares the update.
+    const end = performance.now() + 5000;
+    while (!registration.waiting && canApply() && performance.now() < end) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    const worker = registration.waiting;
+    if (!worker || !canApply()) return;
+    const answer = await askWorker(worker, "GET_VERSION");
+    if (answer?.version !== version || !canApply()) return;
+    const guard = "snack.auto-update." + version;
+    try { if (sessionStorage.getItem(guard)) return; } catch (_) {}
+    const changed = () => {
+      navigator.serviceWorker.removeEventListener("controllerchange", changed);
+      if (!canApply()) return;
+      try { sessionStorage.setItem(guard, "1"); } catch (_) {}
+      window.location.reload();
+    };
+    navigator.serviceWorker.addEventListener("controllerchange", changed);
+    const result = await askWorker(worker, "ACTIVATE_IF_SOLE_CLIENT");
+    if (!result?.accepted) {
+      navigator.serviceWorker.removeEventListener("controllerchange", changed);
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     const fetchVersion = async () => {
       const controller = new AbortController();
@@ -36,39 +95,6 @@ if (typeof window !== "undefined") {
         clearTimeout(timer);
       }
     };
-    const onNewVersion = () => {
-      if (document.getElementById("update-notice")) return;
-      const notice = document.createElement("aside");
-      notice.id = "update-notice";
-      notice.className = "update-notice";
-      notice.setAttribute("role", "status");
-      const message = document.createElement("span");
-      const ko = document.documentElement.lang === "ko";
-      message.textContent = ko
-        ? "새 버전이 있어. 잠시 후 이 사이트의 모든 탭을 닫고 다시 열면 적용돼."
-        : "A new version is available. Close all tabs for this site and reopen it shortly to update.";
-      const close = document.createElement("button");
-      close.type = "button";
-      close.textContent = ko ? "닫기" : "Dismiss";
-      const app = document.getElementById("app");
-      const syncVisibility = () => {
-        notice.hidden = Boolean(app?.querySelector(".play"));
-      };
-      const observer = new MutationObserver(syncVisibility);
-      if (app) observer.observe(app, {childList:true});
-      close.addEventListener("click", () => {
-        observer.disconnect();
-        notice.remove();
-      });
-      notice.append(message, close);
-      document.body.append(notice);
-      syncVisibility();
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistration()
-          .then(registration => registration?.update())
-          .catch(() => {});
-      }
-    };
-    checkReleaseVersion(CURRENT_VERSION, fetchVersion, onNewVersion);
+    checkReleaseVersion(CURRENT_VERSION, fetchVersion, applyWhenSafe);
   });
 }
